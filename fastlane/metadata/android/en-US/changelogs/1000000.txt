@@ -1,0 +1,6 @@
+First public release:
+- Per-SIM keep-alive schedules
+- Send history
+- Automatic retries
+- Off-schedule manual sends
+- English and Russian

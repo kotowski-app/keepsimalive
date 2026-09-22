@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Every string in this file must have a comment above it explaining its purpose and the exact screen/field where it is rendered. Do not remove a string's comment unless you also remove the string itself. -->
+<!-- Note for translator: do not translate annotation comments, they must only exist in the English version -->
+<resources>
+    <!-- Non-translatable resources -->
+    <!-- Option of the language dropdown: the English app language (the only language shipped; not translated, always shown as "English" in every UI language) -->
+    <string name="settings_language_english" translatable="false">English</string>
+    <!-- Option of the language dropdown: the Russian app language (the second shipped language; not translated, always shown as "Русский" in every UI language) -->
+    <string name="settings_language_russian" translatable="false">Русский</string>
+    <!-- Flavor label (FOSS build) shown next to the version in the Dashboard top bar and in the Settings About version value (the %2$s of settings_version_value) -->
+    <string name="app_flavor_label" translatable="false">FOSS</string>
+    <!-- The display name of the app shown on the launcher, as the main title in the Dashboard top bar, and as the title of the persistent notification -->
+    <string name="app_name" translatable="false">Keep SIM Alive</string>
+    <!-- Fallback SIM name when the system display name is missing (null or empty): %1$d = the Android subscriptionId (not a tray slot); shown in the SIM details header, on Dashboard SIM cards, and as the History top-bar name fallback -->
+    <string name="sim_name_fallback" translatable="false">SIM (subscription ID %1$d)</string>
+
+    <!-- Common resources -->
+    <!-- Version label under the app name in the Dashboard top bar; %s = version name without the build suffix -->
+    <string name="app_version">Version %s</string>
+    <!-- contentDescription of the back arrow in the top bars of the SIM details, Settings, App logs, and History screens -->
+    <string name="nav_back">Back</string>
+    <!-- Label of the third stat column on the Dashboard SIM card, of the Sends row in the SIM details SIM info card (the value is the total number of keepalive messages sent for this SIM), and of the numeric max-sends field in the editor while the end condition is "After N sends" -->
+    <string name="send_count">Sends</string>
+    <!-- Title of the Settings screen top bar, contentDescription of the gear icon in the Dashboard top bar that opens it, and title of the Settings summary card on the SIM details screen (shown while the SIM has a saved config, regardless of the keepalive state) -->
+    <string name="settings_title">Settings</string>
+    <!-- Shared option label of the Theme and the App language dropdowns (follow the device setting) -->
+    <string name="settings_system_default">System default</string>
+
+    <!-- SIM status and stats (Dashboard SIM cards and SIM details SIM info card) -->
+    <!-- Status word of the right-hand indicator on a Dashboard SIM card while keepalive is enabled (always shown, independent of the service status) -->
+    <string name="dashboard_sim_status_on">Keep Alive On</string>
+    <!-- Status word of the right-hand indicator on a Dashboard SIM card while keepalive is disabled (always shown, independent of the service status) -->
+    <string name="dashboard_sim_status_off">Keep Alive Off</string>
+    <!-- Dashboard card shown instead of the SIM cards while no SIM card is detected (the Phone permission is granted, so the SIM list is readable) -->
+    <string name="dashboard_no_sims_detected">No SIMs detected</string>
+    <!-- Dashboard card shown instead of the SIM cards while the Phone permission is missing (the SIM list is unreadable then); tapping the card requests the permission -->
+    <string name="dashboard_no_sims_no_phone_permission">Grant Phone permission to see the SIMs</string>
+    <!-- Label of the first stat column on the Dashboard SIM card, and of the "Last sent" row in the SIM details SIM info card -->
+    <string name="last_sent">Last sent</string>
+    <!-- Label of the second stat column on the Dashboard SIM card, and of the row in the SIM details SIM info card; the label switches to next_retry while a retry is pending or in flight -->
+    <string name="next_send">Next send</string>
+    <!-- Label for the same field as next_send, shown while the previous attempt failed and a retry is waiting or in flight -->
+    <string name="next_retry">Next retry</string>
+    <!-- Send count with limit format shown in SIM info card when schedule ends after N sends; %1$d = current count, %2$d = max sends -->
+    <string name="send_count_with_limit">%1$d/%2$d</string>
+    <!-- Value of the Status row in the SIM details SIM info card while a scheduled send is waiting; %1$s = formatted duration -->
+    <string name="status_send_in">Send in %1$s</string>
+    <!-- Value of the Status row in the SIM details SIM info card while a retry is waiting; %1$s = formatted duration -->
+    <string name="status_retry_in">Retry in %1$s</string>
+    <!-- Status row value in the SIM details SIM info card when the scheduled time is more than 5 seconds in the past and neither the send nor a pending retry has started yet -->
+    <string name="status_overdue">Overdue</string>
+
+    <!-- Permissions (Dashboard card, auto-reset dialog) -->
+    <!-- Title of the Permissions card on the Dashboard -->
+    <string name="permissions_title">Permissions</string>
+    <!-- Label of the SEND_SMS permission row in the Dashboard Permissions card -->
+    <string name="permissions_sms">SMS</string>
+    <!-- Label of the READ_PHONE_STATE permission row in the Dashboard Permissions card -->
+    <string name="permissions_phone">Phone (to detect SIM cards)</string>
+    <!-- Label of the battery-optimization exclusion row in the Dashboard Permissions card -->
+    <string name="permissions_battery">Background battery usage</string>
+    <!-- Label of the permission auto-reset row in the Dashboard Permissions card (shown on Android 11+), and title of the confirmation dialog before opening the system auto-reset settings -->
+    <string name="permissions_auto_reset">Turn off \"Manage app if unused\"</string>
+    <!-- Body text of the confirmation dialog shown before opening the system permission auto-reset settings screen -->
+    <string name="permissions_auto_reset_dialog_message">Android automatically removes permissions if you don\'t open the app for a while. On the next screen, turn off the option labelled \"Manage app if unused\", \"Pause app activity if unused\", or \"Remove permissions if app isn\'t used\". If you don\'t see this toggle, look under Permissions. Exact wording and toggle location may vary by device manufacturer and Android version.</string>
+    <!-- Dismiss button of the permission auto-reset confirmation dialog (stays in the app) -->
+    <string name="permissions_auto_reset_dialog_cancel">Not now</string>
+    <!-- Confirm button of the permission auto-reset confirmation dialog (opens the system settings screen) -->
+    <string name="permissions_auto_reset_dialog_open_settings">Open settings</string>
+    <!-- Status text next to the red X icon on a Dashboard permission row that is not granted; tapping the row requests the permission -->
+    <string name="dashboard_permission_missing">Missing</string>
+    <!-- Status text next to the info icon on a Dashboard permission row that is not critical for the app to work (notifications, battery usage, permissions auto-reset); tapping the row still requests the permission -->
+    <string name="dashboard_permission_recommended">Recommended</string>
+    <!-- Hint right under the Dashboard Permissions card header, shown while any permission (required or recommended) is not granted; tapping a row requests it -->
+    <string name="permissions_card_hint">Tap a row to grant the permission.</string>
+    <!-- Toast shown when the user taps a Dashboard permission row that was permanently denied, before opening the system app settings -->
+    <string name="permissions_permanently_denied">Opening app settings. Grant the permission there.</string>
+
+    <!-- SIM details screen (header, error states, SIM info card, Forget) -->
+    <!-- Title of the SIM details top bar; also the fallback title when the SIM display name is empty or the SIM data cannot be loaded -->
+    <string name="sim_detail_title">SIM details</string>
+    <!-- Title of the SIM details top bar on multi-SIM devices: %1$s = SIM display name, %2$d = slot number (1-based) -->
+    <string name="sim_detail_title_with_slot">%1$s (SIM %2$d)</string>
+    <!-- Title of the SIM details top bar on multi-SIM devices while the SIM is not in the device; %1$s = last known SIM display name -->
+    <string name="sim_detail_title_missing">%1$s (SIM missing)</string>
+    <!-- Fallback carrier name when the system carrier name is missing (null or empty); also becomes the SIM display name when the system display name is missing; shown on Dashboard SIM cards -->
+    <string name="sim_carrier_unknown">Unknown</string>
+    <!-- contentDescription of the SIM card icon in the SIM details error state (SIM not found, e.g. removed or no Phone permission) -->
+    <string name="sim_detail_error_icon">SIM card error</string>
+    <!-- Error text shown in the SIM details error state when a real SIM cannot be loaded because the READ_PHONE_STATE (Phone) permission is not granted -->
+    <string name="sim_detail_permission_required">Phone permission is required to view SIM details.</string>
+    <!-- Error text shown in the SIM details error state when the SIM is not in the device and no cached identity exists to fall back on -->
+    <string name="sim_detail_removed_error">Failed to load SIM data. The SIM may have been removed.</string>
+    <!-- Label of the Operator row in the SIM details SIM info card; the value is the network operator, with a roaming suffix when roaming -->
+    <string name="sim_detail_operator_name">Operator</string>
+    <!-- Label of the Last seen row in the SIM info card of the SIM details screen (shown while the SIM is not in the device, as the card's first data row when there is a last-seen record; the missing-SIM banner sits directly on the screen above the card, not inside it); the value is when the app last saw the SIM, with the slot suffix on multi-SIM devices (sim_last_seen_with_slot) -->
+    <string name="sim_last_seen">Last seen</string>
+    <!-- Value format of the Last seen row in the SIM info card of the SIM details screen (shown while the SIM is not in the device); %1$s = formatted date and time the app last saw the SIM, %2$d = the 1-based slot the SIM was in at that time -->
+    <string name="sim_last_seen_with_slot">%1$s (slot %2$d)</string>
+    <!-- Button of the missing-SIM banner on the SIM details screen (the shared Banner composable, directly on the screen above the SIM info card, shown while the SIM is not in the device); the neutral button style of the shared banner, not the error color; after confirmation it deletes the SIM's settings, history and cached identity -->
+    <string name="sim_forget">Forget</string>
+    <!-- Question of the confirmation dialog before forgetting a SIM (deletes its settings, history and cached identity) -->
+    <string name="sim_forget_confirm">Forget this SIM?</string>
+    <!-- Detail line of the confirmation dialog before forgetting a SIM (deletes its settings, history and cached identity) -->
+    <string name="sim_forget_confirm_detail">Its settings and history will be deleted, and it will be removed from the dashboard. If reinserted, it will be treated as a new SIM.</string>
+    <!-- Label of the Error row in the SIM details SIM info card, shown only while a retry is pending or in flight; the value is the last failure reason -->
+    <string name="sim_detail_error">Error</string>
+    <!-- Label of the Retry button in the SIM details SIM info card, shown only while a failed occurrence is waiting for its next retry; tapping it runs the pending retry immediately -->
+    <string name="sim_info_retry">Retry</string>
+    <!-- Suffix appended to the Operator value in the SIM details SIM info card while roaming; %1$s = visited network operator name -->
+    <string name="sim_detail_roaming_on">roaming on %1$s</string>
+    <!-- Label of the off-schedule send button at the bottom of the SIM details SIM info card (the same slot and style as the Retry button); while the confirmed send is pending the same slot carries the Cancel for it; the button is shown only while the keepalive is on, the schedule is not ended, and the recipient and message are valid; it arms a one-off send of the configured message that is not part of the recurring schedule -->
+    <string name="sim_send_off_schedule">Send off schedule</string>
+    <!-- Title of the confirm dialog before the off-schedule send; the settings card already shows the recipient and the message, so the dialog only warns -->
+    <string name="sim_send_off_schedule_confirm">Send off schedule?</string>
+    <!-- Single warning message of the confirmation-only off-schedule dialog (no line break): %1$s = the delay until the message goes out (formatted from AppConfig.OFF_SCHEDULE_SEND_DELAY_MS); case-neutral: the one-off always increases the send count, and the previously pending send is skipped (recorded in History) only when the next send's date actually changes; after the confirm the SIM info card's button becomes the Cancel -->
+    <string name="sim_send_off_schedule_confirm_detail">The message will be sent off schedule in %1$s. You can cancel the send before it goes out.</string>
+
+    <!-- Settings screen -->
+    <!-- Section header in the Settings screen above the notification toggle, and label of the POST_NOTIFICATIONS permission row in the Dashboard Permissions card (shown on Android 13+ only) -->
+    <string name="settings_section_notifications">Notifications</string>
+    <!-- Label of the sticky-notification toggle row in the Settings screen Notifications section; on by default, while on the persistent keepalive notification is shown -->
+    <string name="settings_sticky_notification">Sticky notification</string>
+    <!-- Explanation under the sticky-notification toggle row in the Settings screen Notifications section -->
+    <string name="settings_sticky_notification_desc">Show the persistent notification when Keep Alive is on.</string>
+    <!-- Section header in the Settings screen above the exact-wake-up toggle -->
+    <string name="settings_section_scheduling">Scheduling</string>
+    <!-- Label of the exact-wake-up toggle row in the Settings screen Scheduling section; off by default, while on every armed schedule additionally sets an exact alarm that wakes the device at the scheduled time -->
+    <string name="settings_exact_wake_title">Exact wake-up (experimental)</string>
+    <!-- Explanation under the exact-wake-up toggle row in the Settings screen Scheduling section -->
+    <string name="settings_exact_wake_desc">Wake the device with an exact alarm instead of the system\'s deferred scheduler, which can be delayed by aggressive OEM battery optimization. For best results, allow unrestricted battery usage and grant the Alarms &amp; reminders permission (Android 12+). The deferred scheduler remains active as a backup.</string>
+    <!-- Floating label of the late-send grace dropdown in the Settings screen Scheduling section -->
+    <string name="settings_grace_label">Late send grace</string>
+    <!-- Option in the late-send grace dropdown: an occurrence is still attempted up to 15 minutes past its scheduled time (the default) -->
+    <string name="settings_grace_15min">15 minutes</string>
+    <!-- Option in the late-send grace dropdown: an occurrence is still attempted up to 1 hour past its scheduled time -->
+    <string name="settings_grace_1h">1 hour</string>
+    <!-- Option in the late-send grace dropdown: an occurrence is still attempted up to 4 hours past its scheduled time -->
+    <string name="settings_grace_4h">4 hours</string>
+    <!-- Option in the late-send grace dropdown: an occurrence is still attempted up to 1 day past its scheduled time -->
+    <string name="settings_grace_1day">1 day</string>
+    <!-- Option in the late-send grace dropdown: an occurrence is still attempted up to 7 days past its scheduled time -->
+    <string name="settings_grace_7day">7 days</string>
+    <!-- Explanation under the late-send grace dropdown in the Settings screen Scheduling section -->
+    <string name="settings_grace_desc">If the system wakes the app late, the send still goes out when it arrives within this window; older occurrences are recorded as missed. A very late send can arrive after the end date of a schedule that ends on a date.</string>
+    <!-- Section header in the Settings screen above the history retention toggle -->
+    <string name="settings_section_data_retention">Data retention</string>
+    <!-- Label of the history retention toggle row in the Settings screen; while on, finished history rows older than the retention period are deleted automatically -->
+    <string name="settings_cleanup_title">Auto-clear history</string>
+    <!-- Explanation under the history retention toggle row in the Settings screen -->
+    <string name="settings_cleanup_desc">Automatically delete finished sends from the SIM history after a certain period of time.</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 1 month -->
+    <string name="settings_retention_1_month">1 month</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 3 months -->
+    <string name="settings_retention_3_months">3 months</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 6 months -->
+    <string name="settings_retention_6_months">6 months</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 1 year -->
+    <string name="settings_retention_1_year">1 year</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 2 years -->
+    <string name="settings_retention_2_years">2 years</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 5 years -->
+    <string name="settings_retention_5_years">5 years</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 10 years -->
+    <string name="settings_retention_10_years">10 years</string>
+    <!-- Option in the retention period dropdown in the Settings screen: finished history is kept for 20 years -->
+    <string name="settings_retention_20_years">20 years</string>
+    <!-- Floating label of the retention period dropdown row in the Settings screen -->
+    <string name="settings_cleanup_period_label">Retention period</string>
+    <!-- Value row of the retention period in the Settings screen while the row is locked (not in the edit mode); %s = the label of the stored period -->
+    <string name="settings_cleanup_period_value">Retention period: %s</string>
+    <!-- Title of the confirm dialog shown when the retention period is saved while the "Auto-clear history" enable is still pending (toggle on, period not yet saved) -->
+    <string name="settings_cleanup_enable_title">Enable auto-clear?</string>
+    <!-- Title of the confirm dialog shown when the retention period is saved shorter than the stored one -->
+    <string name="settings_cleanup_shorten_title">Shorten retention period?</string>
+    <!-- Affirmative button of the enable-auto-clear confirm dialog (matches its "Enable auto-clear?" title) -->
+    <string name="settings_cleanup_enable_confirm">Enable</string>
+    <!-- Affirmative button of the shorten-retention confirm dialog (matches its "Shorten retention period?" title) -->
+    <string name="settings_cleanup_shorten_confirm">Shorten</string>
+    <!-- Detail line of the retention confirm dialogs (enabling, shortening); %s = the label of the period the deletions will apply to (case-neutral: the injected label keeps its nominative form inside the parentheses) -->
+    <string name="settings_cleanup_confirm_detail">Sends older than the selected retention period (%s) will be permanently deleted from the SIM history.</string>
+    <!-- Hint under the retention period row while the enable is pending (the toggle is on but the period not saved yet) -->
+    <string name="settings_cleanup_enable_hint">Pick a period and tap Save to enable the auto-clear.</string>
+    <!-- Toast shown when the user turns the history retention on in the Settings screen; %d = the hours of the periodic safety sweep, the latest the cleanup can take -->
+    <plurals name="settings_cleanup_will_run">
+        <item quantity="one">Cleanup will run within %d hour.</item>
+        <item quantity="other">Cleanup will run within %d hours.</item>
+    </plurals>
+    <!-- Label of the "Open logs" row in the App logs section of the Settings screen; tapping it opens the App logs screen -->
+    <string name="settings_logs">Open logs</string>
+
+    <!-- Appearance (Settings screen) -->
+    <!-- Section header in the Settings screen above the theme and language pickers -->
+    <string name="settings_section_appearance">Appearance</string>
+    <!-- Floating label of the theme dropdown in the Settings screen Appearance section -->
+    <string name="settings_theme_label">Theme</string>
+    <!-- Option of the theme dropdown: force the light theme -->
+    <string name="settings_theme_light">Light</string>
+    <!-- Option of the theme dropdown: force the dark theme -->
+    <string name="settings_theme_dark">Dark</string>
+    <!-- Floating label of the language dropdown in the Settings screen Appearance section -->
+    <string name="settings_language_label">Language</string>
+
+    <!-- App logs screen -->
+    <!-- Title of the App logs screen top bar, and of the App logs section header in Settings above the Open logs button -->
+    <string name="log_viewer_title">App logs</string>
+    <!-- "Copy" button label in the App logs top bar (copies the filtered log to the clipboard) -->
+    <string name="log_viewer_copy">Copy</string>
+    <!-- Floating label of the search field on the App logs screen -->
+    <string name="log_viewer_search">Search</string>
+    <!-- Placeholder of the search field on the App logs screen -->
+    <string name="log_viewer_search_hint">Search log messages</string>
+    <!-- Empty state text on the App logs screen when no logs were captured yet -->
+    <string name="log_viewer_empty">No logs captured yet</string>
+    <!-- Empty state text on the App logs screen when the search query matches no log lines -->
+    <string name="log_viewer_no_match">No logs match the search query.</string>
+    <!-- Toast shown after copying log lines to the clipboard on the App logs screen -->
+    <string name="log_viewer_copied">Copied to clipboard</string>
+    <!-- Defensive toast for a blank copy (the Copy button is disabled while there are no filtered log lines, so it is not reachable from the UI) -->
+    <string name="log_viewer_nothing_to_copy">Nothing to copy</string>
+
+    <!-- About (Settings screen, Dashboard top bar) -->
+    <!-- Section header at the bottom of the Settings screen above the version row and the GitHub link rows -->
+    <string name="settings_section_about">About</string>
+    <!-- Title of the version row (the first item) in the Settings About section; the version and the flavor render as the small text under the title -->
+    <string name="settings_version_title">Version</string>
+    <!-- Small text under the version row title in the Settings About section; %1$s = version name without the build suffix, %2$s = the flavor label -->
+    <string name="settings_version_value">%1$s %2$s</string>
+    <!-- Title of the sponsor row in the Settings About section (opens the Buy Me a Coffee page), and text of the sponsor link shown after the SIM cards in the Dashboard that opens the same page -->
+    <string name="settings_about_sponsor">Buy developer a coffee</string>
+    <!-- Hint under the sponsor row in the Settings About section, suggesting starring the repository as a free alternative to donating -->
+    <string name="settings_about_sponsor_hint">Can\'t donate? Star the repository on GitHub.</string>
+    <!-- Title of the source-code row in the Settings About section (opens the GitHub repository) -->
+    <string name="settings_about_source_code">Source code</string>
+    <!-- Title of the bug row in the Settings About section (opens the new-issue page of the GitHub repository without a pre-selected type) -->
+    <string name="settings_about_report_bug">Report a bug</string>
+
+    <!-- Time formatting (IntervalFormatter and DateUtil) -->
+    <!-- "Last sent"/"Next send" relative value for a moment less than 30 seconds ago; shared by Dashboard and SIM details -->
+    <string name="interval_just_now">Just now</string>
+    <!-- "Next send" relative value for a future time under 30 seconds; the Status row countdown clamps to "Send in 0s" (duration_seconds) instead of this value -->
+    <string name="interval_in_a_moment">In a moment</string>
+    <!-- "Never" in scheduling: the "Last sent" relative value when the SIM never sent a keepalive message (Dashboard and SIM details), and the Ends option / display value in the editor while the schedule never stops (the schedule sentence omits the end part entirely in that case) -->
+    <string name="interval_never">Never</string>
+    <!-- "Next send" relative value when no schedule is set (keepalive off, no config, or the schedule ended and its next send was cleared) -->
+    <string name="interval_not_scheduled">Not scheduled</string>
+    <!-- Past -->
+    <!-- "Last sent" relative value on the Dashboard SIM card and in the SIM details SIM info card, 30 s - 29 m 59 s ago (displays 1-30 minutes) -->
+    <plurals name="past_minutes">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <!-- "Last sent" relative value, 30 min - 11 h 59 m ago (displays 1-12 hours) -->
+    <plurals name="past_hours">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+    <!-- "Last sent" relative value, 12 h - 7 d 12 h ago (displays 1-7 days; beyond that the full date is shown instead) -->
+    <plurals name="past_days">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <!-- Future -->
+    <!-- "Next send" relative value on the Dashboard SIM card and in the SIM details SIM info card, 30 s - 29 m 59 s from now (displays 1-30 minutes) -->
+    <plurals name="future_minutes">
+        <item quantity="one">in %d minute</item>
+        <item quantity="other">in %d minutes</item>
+    </plurals>
+    <!-- "Next send" relative value, 30 min - 11 h 59 m from now (displays 1-12 hours) -->
+    <plurals name="future_hours">
+        <item quantity="one">in %d hour</item>
+        <item quantity="other">in %d hours</item>
+    </plurals>
+    <!-- "Next send" relative value, 12 h - 7 d 12 h from now (displays 1-7 days; beyond that the full date is shown instead) -->
+    <plurals name="future_days">
+        <item quantity="one">in %d day</item>
+        <item quantity="other">in %d days</item>
+    </plurals>
+    <!-- Countdown durations (SIM details SIM info Status row, and status_send_in / status_retry_in) -->
+    <!-- Duration format of the Status row countdown when it spans days; %1$d = days, %2$02d = hours, %3$02d = minutes, %4$02d = seconds (Note for translator: %1$dd is not a typo — the first 'd' belongs to the format code %1$d, and the second 'd' is the letter for "days", which you may translate to your language's abbreviation) -->
+    <string name="duration_days">%1$dd %2$02dh %3$02dm %4$02ds</string>
+    <!-- Duration format of the Status row countdown when it spans hours (less than a day) -->
+    <string name="duration_hours">%1$dh %2$02dm %3$02ds</string>
+    <!-- Duration format of the Status row countdown when it spans minutes (less than an hour) -->
+    <string name="duration_minutes">%1$dm %2$02ds</string>
+    <!-- Duration format of the Status row countdown when it spans seconds (less than a minute) -->
+    <string name="duration_seconds">%1$ds</string>
+
+    <!-- Shared action buttons (editor bars, App logs top bar, History card header) -->
+    <!-- Label of the Save button in the editor bottom bar, and contentDescription of the save icon; shared by the SIM Settings and the retention period editors -->
+    <string name="action_save">Save</string>
+    <!-- Label of the Cancel button in the editor bottom bar; shared by the SIM Settings and the retention period editors -->
+    <string name="action_cancel">Cancel</string>
+    <!-- Label of the Edit button that re-opens the editor (the SIM Settings summary card and the Settings retention summary row) -->
+    <string name="action_edit">Edit</string>
+    <!-- contentDescription of the Clear (trash) icon in the History screen top bar; tapping it deletes all history for the SIM after confirmation -->
+    <string name="action_clear">Clear</string>
+
+    <!-- SIM Settings (config editor and summary cards) -->
+    <!-- Label of the Keep Alive toggle card on the SIM details screen; tapping the card (or its switch) toggles keepalive for the SIM; also the name of the notification channel as shown in the system notification settings -->
+    <string name="sim_config_toggle">Keep Alive</string>
+    <!-- Label of the Recipient field in the SIM Settings editor (the "+" prefix is fixed and not editable, the user types the number only), of the Recipient row in the Settings summary card, and of the Recipient row in the Message details dialog -->
+    <string name="sim_config_recipient">Recipient</string>
+    <!-- Toast shown when the user taps Save in the editor while the Recipient is not a valid E.164 number (any length, including under 8 characters) -->
+    <string name="sim_config_recipient_invalid">Enter a valid phone number with country code</string>
+    <!-- Label of the Message field in the SIM Settings editor, of the Message row in the Settings summary card, and of the Message row in the Message details dialog -->
+    <string name="sim_config_message">Message</string>
+    <!-- Label of the Policy row in the Settings summary card; the value is the human-readable schedule sentence -->
+    <string name="sim_config_policy">Policy</string>
+    <!-- Fallback text of the Message row in the Settings summary card when the stored message is empty (the editor's Message field itself starts empty for a new SIM) -->
+    <string name="sim_config_message_default">Keep this SIM alive</string>
+    <!-- Toast shown when the user taps Save in the editor while the Message field is empty -->
+    <string name="sim_config_message_required">Message is required</string>
+    <!-- Label of the Send time row in the SIM Settings editor, and title of the time picker dialog -->
+    <string name="sim_config_send_time">Send time</string>
+    <!-- Label of the Frequency section in the SIM Settings editor -->
+    <string name="sim_config_frequency">Frequency</string>
+    <!-- Suffix shown after the numeric value of the "Every N days" frequency in the editor -->
+    <plurals name="sim_config_frequency_days">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <!-- "Days" segment button label in the Frequency row of the SIM Settings editor (frequency expressed as every N days) -->
+    <string name="sim_config_frequency_days_label">Days</string>
+    <!-- "Months" segment button label in the Frequency row of the SIM Settings editor (frequency expressed as every N months) -->
+    <string name="sim_config_frequency_months_label">Months</string>
+    <!-- "Selected months" segment button label in the Frequency row of the SIM Settings editor (frequency expressed as the user-picked months) -->
+    <string name="sim_config_frequency_selected_months_label">Selected months</string>
+    <!-- Hint under the month grid in the editor while the selected-months frequency has no picked month (the draft is unschedulable, so Save stays dimmed); also the Save-tap toast for that state -->
+    <string name="sim_config_frequency_selected_months_pick">Select at least one month.</string>
+    <!-- Label of the Ends row in the SIM Settings editor (end condition of the schedule) -->
+    <string name="sim_config_end_condition">Ends</string>
+    <!-- "After N sends" option value of the Ends dropdown in the editor; %d = max sends (the schedule sentence uses schedule_stops_after_sends instead) -->
+    <plurals name="sim_config_end_after_sends">
+        <item quantity="one">After %d send</item>
+        <item quantity="other">After %d sends</item>
+    </plurals>
+    <!-- Dropdown option label in the Ends row of the editor: schedule stops after a fixed number of sends -->
+    <string name="sim_config_end_after_sends_option">After N sends</string>
+    <!-- Dropdown option label in the Ends row of the editor: schedule stops on a chosen date; also the Ends display value while the end type is "On date" without a picked date -->
+    <string name="sim_config_end_on_date_option">On date</string>
+    <!-- Error text shown when "On date" end type is selected but no date has been picked -->
+    <string name="sim_config_end_date_required">Select an end date</string>
+    <!-- Label of the Random Send Window row in the SIM Settings editor -->
+    <string name="sim_config_time_window">Random send window</string>
+    <!-- Value text of the Random Send Window row; %s = formatted window size (e.g. "5 min", "2 h", "7 d") -->
+    <string name="sim_config_time_window_value">0–%s after set time</string>
+    <!-- Window size unit in the Random Send Window value when the window is under an hour; %d = minutes -->
+    <string name="sim_config_time_window_minutes">%d min</string>
+    <!-- Window size unit in the Random Send Window value when the window is 1-23 hours; %d = hours -->
+    <string name="sim_config_time_window_hours">%d h</string>
+    <!-- Window size unit in the Random Send Window value when the window is 24+ hours; %d = days -->
+    <string name="sim_config_time_window_days">%d d</string>
+    <!-- contentDescription of the minus (-) button of the Random Send Window row in the editor -->
+    <string name="sim_config_time_window_decrease">Decrease send window</string>
+    <!-- contentDescription of the plus (+) button of the Random Send Window row in the editor -->
+    <string name="sim_config_time_window_increase">Increase send window</string>
+    <!-- Explanation under the Random Send Window row when no window fits (a monthly day leaves no room before the next month, or a time leaves no room before midnight; a shift must not cross that boundary) -->
+    <string name="sim_config_time_window_unavailable">No window fits this time: a random shift would cross into the next day or month.</string>
+    <!-- contentDescription of the tappable Send time field in the editor that opens the time picker -->
+    <string name="sim_config_send_time_select">Select time</string>
+    <!-- Title of the SIM info card on the SIM details screen (Operator / Last sent / Next send / Status / Sends rows) -->
+    <string name="sim_config_card_sim_info">SIM info</string>
+    <!-- Title of the Schedule rules card in the SIM Settings editor (Send time, Frequency, Ends, Random Send Window) -->
+    <string name="sim_config_card_schedule_rules">Schedule rules</string>
+    <!-- contentDescription of the minus (-) stepper button in the editable number rows of the SIM Settings editor (every N days, every N months, on day N, N sends) -->
+    <string name="sim_config_step_decrease">Decrease</string>
+    <!-- contentDescription of the plus (+) stepper button in the editable number rows of the SIM Settings editor (every N days, every N months, on day N, N sends) -->
+    <string name="sim_config_step_increase">Increase</string>
+    <!-- Prefix label of the numeric frequency field in the editor ("Every [N] days/months") -->
+    <string name="sim_config_frequency_every">Every</string>
+    <!-- Label of the day-of-month field in the editor, visible for both month cadences (monthly and selected months, which share the send day) -->
+    <string name="sim_config_frequency_monthly_day">On day</string>
+    <!-- Toast shown after saving the SIM Settings editor -->
+    <string name="sim_config_saved">Settings saved</string>
+    <!-- Toast shown when the user taps Save but the config has validation errors -->
+    <string name="sim_config_invalid">Fix errors before saving</string>
+    <!-- Toast shown when the user switches Keep Alive on in the editor: the enable only takes effect when the user saves -->
+    <string name="sim_config_will_be_enabled_on_save">Will be enabled when you save</string>
+    <!-- "Delete" button of the Settings summary card (next to Edit) that unconfigures the SIM after confirmation, and the affirmative button of the delete-schedule and delete-all-history confirmation dialogs -->
+    <string name="sim_config_delete">Delete</string>
+    <!-- Question of the confirmation dialog before deleting the SIM's saved schedule (deletes the config row: schedule, last sent, send count; history is kept) -->
+    <string name="sim_config_delete_confirm">Delete this SIM\'s schedule?</string>
+    <!-- Detail line of the confirmation dialog before deleting the SIM's saved schedule (deletes the config row: schedule, last sent, send count; history is kept) -->
+    <string name="sim_config_delete_confirm_detail">The schedule will be deleted and the send count reset. History is kept.</string>
+    <!-- Suffix shown after the numeric value of the "Every N months" frequency in the editor -->
+    <plurals name="sim_config_frequency_months">
+        <item quantity="one">month</item>
+        <item quantity="other">months</item>
+    </plurals>
+    <!-- Hint under the day-of-month field in the editor (both month cadences) for days 29-31; %d = selected day -->
+    <string name="sim_config_frequency_monthly_day_hint">If day %d doesn\'t exist in a month, the message sends on the last day.</string>
+
+    <!-- Schedule sentence (Settings card / Policy row) -->
+    <!-- Template of the human-readable schedule sentence in the Policy row, a punctuation-based list of constraints (not a spoken sentence, so translators can keep the parts in any order): %1$s = frequency part, %2$s = time part, %3$s = end part with its own leading separator (may be empty) -->
+    <string name="schedule_sentence">%1$s, %2$s%3$s</string>
+    <!-- Frequency part of the schedule sentence for a daily schedule (every 1 day); used when the days interval is 1, the plural below is used for 2+ -->
+    <string name="schedule_freq_every_day">Every day</string>
+    <!-- Frequency part of the schedule sentence for daily/every-N-days schedules (2+ days); %d = days interval -->
+    <plurals name="schedule_freq_days">
+        <item quantity="one">Every %d day</item>
+        <item quantity="other">Every %d days</item>
+    </plurals>
+    <!-- Frequency part of the schedule sentence for a monthly schedule on a fixed day (every 1 month); used when the months interval is 1, the plural below is used for 2+; %1$d = day of month -->
+    <string name="schedule_freq_monthly">Monthly on day %1$d</string>
+    <!-- Frequency part of the schedule sentence for monthly/every-N-months schedules (2+ months); %1$d = day of month, %2$d = months interval -->
+    <plurals name="schedule_freq_months">
+        <item quantity="one">Every %2$d month on day %1$d</item>
+        <item quantity="other">Every %2$d months on day %1$d</item>
+    </plurals>
+    <!-- Frequency part of the schedule sentence when the configured day (29-31) is clamped to the last day of shorter months, every 1 month; used when the months interval is 1; %1$d = day of month -->
+    <string name="schedule_freq_monthly_short">Monthly on day %1$d (last day of shorter months)</string>
+    <!-- Frequency part of the schedule sentence when the configured day (29-31) is clamped to the last day of shorter months (2+ months); %1$d = day of month, %2$d = months interval -->
+    <plurals name="schedule_freq_months_short">
+        <item quantity="one">Every %2$d month on day %1$d (last day of shorter months)</item>
+        <item quantity="other">Every %2$d months on day %1$d (last day of shorter months)</item>
+    </plurals>
+    <!-- Frequency part of the schedule sentence for the selected-months schedule (one send per picked month on the configured day); %1$s = the picked month names (calendar order, formatted with the platform ListFormatter so the separators are localized), %2$d = day of month (case-neutral: the injected list keeps its nominative form after the colon) -->
+    <string name="schedule_freq_selected_months">On day %2$d of the following months: %1$s</string>
+    <!-- Frequency part of the schedule sentence for the selected-months schedule when the configured day (29-31) is clamped to the last day of shorter months; %1$s = the picked month names (platform ListFormatter), %2$d = day of month -->
+    <string name="schedule_freq_selected_months_short">On day %2$d of the following months: %1$s (last day of shorter months)</string>
+    <!-- Time part of the schedule sentence when the send window is zero (fixed time); %s = formatted time -->
+    <string name="schedule_time_at">at %s</string>
+    <!-- Time part of the schedule sentence when the random window ends the same day; %1$s = window start time, %2$s = window end time -->
+    <string name="schedule_time_between">at a random time between %1$s and %2$s</string>
+    <!-- Time part of the schedule sentence when the random window crosses midnight; %1$s = window start time, %2$s = window end time -->
+    <string name="schedule_time_between_next_day">at a random time between %1$s and %2$s the next day</string>
+    <!-- Time part of the schedule sentence when the random window spans more than one day; %1$s = start time, %2$s = end time, %3$d = days later (the count is always 2+, but the `one` item must exist: multi-category languages pick it for numbers like 21) -->
+    <plurals name="schedule_time_between_days_later">
+        <item quantity="one">at a random time between %1$s and %2$s %3$d day later</item>
+        <item quantity="other">at a random time between %1$s and %2$s %3$d days later</item>
+    </plurals>
+    <!-- End part of the schedule sentence for the "On date" end condition, parenthesized so it reads as a constraint in the punctuation-based sentence; %s = formatted end date -->
+    <string name="schedule_until_date">(until %s)</string>
+    <!-- End part of the schedule sentence for the "After N sends" end condition -->
+    <plurals name="schedule_stops_after_sends">
+        <item quantity="one">stops after %d send</item>
+        <item quantity="other">stops after %d sends</item>
+    </plurals>
+
+    <!-- History (SIM details and History screen) -->
+    <!-- Title of the History row with record count on the SIM details screen; %d = the exact terminal count from the DB; also the History top-bar fallback title while the SIM name is empty -->
+    <string name="sim_history_title_count">History (%d)</string>
+    <!-- Title of the History screen top bar; %1$s = the SIM display name (the fallback names the subscription id), %2$d = the exact terminal count from the DB -->
+    <string name="sim_history_screen_title">%1$s — History (%2$d)</string>
+    <!-- Empty-state text on the History screen while no finished send is recorded for the SIM yet -->
+    <string name="sim_history_empty">No history yet</string>
+    <!-- Confirmation dialog text before deleting all history for the SIM -->
+    <string name="sim_history_clear_confirm">Delete all history for this SIM?</string>
+    <!-- Value of the "Next send"/"Next retry" field on the Dashboard and of the Status row in the SIM info card while a send is in flight; the history list never contains in-flight rows (terminal filter), so it never renders in the History list or the Message details dialog -->
+    <string name="sim_history_outcome_sending">Trying now</string>
+    <!-- Outcome value of a history row in the History list and the Message details dialog when the SMS was sent successfully -->
+    <string name="sim_history_outcome_sent">Sent</string>
+    <!-- Outcome value of a history row in the History list and the Message details dialog when the send permanently failed (or the retry window expired) -->
+    <string name="sim_history_outcome_failed">Failed</string>
+    <!-- Outcome value of a history row in the History list and the Message details dialog when the occurrence was not sent (missed grace, end condition reached, an interrupted attempt, a disable before send, a deleted schedule, or a cancelled off-schedule send) -->
+    <string name="sim_history_outcome_skipped">Skipped</string>
+    <!-- Title of the Message details card in the SIM Settings editor (Recipient and Message fields), and title of the Message details dialog opened by tapping a History row -->
+    <string name="sim_history_detail_title">Message details</string>
+    <!-- "Scheduled" row label in the Message details dialog (the planned time of the occurrence) -->
+    <string name="sim_history_detail_scheduled">Scheduled</string>
+    <!-- "Sent at" row label in the Message details dialog (shown for sent occurrences) -->
+    <string name="sim_history_detail_sent_at">Sent at</string>
+    <!-- "Tried at" row label in the Message details dialog (shown for non-SENT occurrences that have an attempt timestamp, i.e. FAILED/SKIPPED) -->
+    <string name="sim_history_detail_tried_at">Tried at</string>
+    <!-- "Status" row label in the Message details dialog, and label of the Status row in the SIM details SIM info card -->
+    <string name="sim_history_detail_outcome">Status</string>
+    <!-- "Retries" row label in the Message details dialog (shown only when the occurrence was actually retried) -->
+    <string name="sim_history_detail_retries">Retries</string>
+    <!-- "Reason" row label in the Message details dialog (shown while the row has a failure reason, i.e. FAILED/SKIPPED; SENT rows store none, so the row is hidden there) -->
+    <string name="sim_history_detail_failure">Reason</string>
+    <!-- Success reason text shown in the History list for SENT outcomes; %1$s = formatted date of the successful send -->
+    <string name="sim_history_sent_successfully_on">Sent successfully on %1$s</string>
+    <!-- Title of the auto-clear banner (the shared Banner composable) at the top of the History screen while the Settings "Auto-clear history" is on; the period itself is stated once, in the description below -->
+    <string name="sim_history_auto_clear_on">Auto-clear is on</string>
+    <!-- Description under the auto-clear banner row on the History screen (shared Banner composable); %1$s = the label of the selected retention period -->
+    <string name="sim_history_auto_clear_desc">Records older than %1$s are deleted automatically. You can change this in Settings, under Data retention.</string>
+    <!-- Button label of the auto-clear banner on the History screen (shared Banner composable) that runs the retention cleanup immediately instead of waiting for the next safety sweep -->
+    <string name="sim_history_run_cleanup_now">Run cleanup now</string>
+    <!-- Title of the result dialog after a manual "Run cleanup now" -->
+    <string name="sim_history_cleanup_complete">Cleanup complete</string>
+    <!-- Body of the result dialog after a manual "Run cleanup now"; %d = how many finished history rows were deleted (across all SIMs, like the periodic sweep) -->
+    <plurals name="sim_history_cleanup_deleted">
+        <item quantity="one">Deleted %d record</item>
+        <item quantity="other">Deleted %d records</item>
+    </plurals>
+
+    <!-- Notifications -->
+    <!-- Description of the notification channel as shown in the system notification settings -->
+    <string name="notification_channel_desc">Shows when keepalive is active or auto-disabled</string>
+    <!-- Text of the persistent notification shown while any SIM keepalive is enabled and the Sticky notification setting is on: a hint the app is running, tap opens the app -->
+    <string name="notification_status_text">The service is running</string>
+    <!-- Title of the one-shot notification posted when a keepalive is auto-disabled after too many consecutive SIM-not-present failures; %1$s = the SIM's display name (last known identity while the SIM is absent): tap opens the app -->
+    <string name="notification_auto_disabled_title">Service disabled on %1$s</string>
+    <!-- Text of the one-shot notification posted when a keepalive is auto-disabled after too many consecutive SIM-not-present failures; %1$s = the SIM's display name (last known identity while the SIM is absent), %2$d = the consecutive-failure threshold that triggered the auto-disable -->
+    <plurals name="notification_auto_disabled_text">
+        <item quantity="one">%1$s not present after %2$d failed attempt. Re-enable Keep Alive to resume.</item>
+        <item quantity="other">%1$s not present after %2$d failed attempts. Re-enable Keep Alive to resume.</item>
+    </plurals>
+
+    <!-- Errors and history reasons (failure/skip reasons stored in history, plus related toasts and editor warnings) -->
+    <!-- Failure reason stored in the history when the 14-day retry window of an occurrence expired without a successful send -->
+    <string name="error_retry_period_exceeded">Retry period exceeded 2 weeks</string>
+    <!-- Failure reason stored in the history when the radio is off at send time (SmsManager RESULT_ERROR_RADIO_OFF) -->
+    <string name="error_radio_off">Radio is off</string>
+    <!-- Failure reason stored in the history when the SIM has no network at send time (SmsManager RESULT_ERROR_NO_SERVICE); also the status word shown next to the signal_disconnected icon on a Dashboard SIM card while the SIM is in the device but has no network service -->
+    <string name="error_no_service">No service</string>
+    <!-- Failure reason stored in the history when the radio reports no message data (SmsManager RESULT_ERROR_NULL_PDU) -->
+    <string name="error_null_pdu">No message data</string>
+    <!-- Failure reason stored in the history for a generic radio failure (SmsManager RESULT_ERROR_GENERIC_FAILURE) or an unknown result code -->
+    <string name="error_send_failed">Could not send SMS</string>
+    <!-- Toast shown when saving the keepalive schedule fails: the config write to storage threw and the change was not persisted -->
+    <string name="error_save_failed">Could not save the schedule</string>
+    <!-- Failure reason stored in the history when the radio did not answer within the 30s send timeout; the occurrence is marked permanently failed and the schedule moves to the next occurrence (no retry, to avoid a duplicate send) -->
+    <string name="error_send_timeout">Send timed out</string>
+    <!-- Failure reason stored in the history when a send attempt was interrupted because the process died mid-send (the occurrence is then skipped) -->
+    <string name="error_send_interrupted">App died mid-send</string>
+    <!-- Toast shown when a user action is refused while a fresh send attempt is in flight (Keep Alive toggle off, Delete, Forget, Cancel off-schedule, Retry now): the action is refused so the in-flight send is not lost from the history and the send count -->
+    <string name="error_send_in_progress">A send is in progress — try again in a moment</string>
+    <!-- Failure reason stored in the history when the user disabled keepalive between the scheduled time and the radio call: the message was not sent and the occurrence is recorded as skipped -->
+    <string name="error_disabled_before_send">Disabled before send</string>
+    <!-- Failure reason stored in the history when the user deleted the SIM's saved schedule while an occurrence was still open (pending, in flight or retrying): the message was not sent and the occurrence is recorded as skipped -->
+    <string name="error_schedule_deleted">Schedule deleted</string>
+    <!-- Failure reason stored in the history when the user cancelled the pending off-schedule send before it went out: the occurrence is recorded as skipped and the regular schedule is restored -->
+    <string name="error_send_cancelled">Cancelled by user</string>
+    <!-- Failure reason stored in the history when the arm of an off-schedule send drops the pending regular send and the one-off's re-anchoring moves the next occurrence to a different date: the dropped occurrence is recorded as skipped at its scheduled time and the schedule continues from the off-schedule date -->
+    <string name="error_replaced_by_off_schedule">Replaced by an off-schedule send</string>
+    <!-- Title of the schedule-ended banner on the SIM details screen (the shared Banner composable, directly on the screen between the toggle card and the settings card, no button); the description below is one of the error_schedule_ended_* reasons -->
+    <string name="error_schedule_ended">Schedule ended</string>
+    <!-- Description of the schedule-ended banner on the SIM details screen (below its "Schedule ended." title), the editor warning and the save backstop toast, shown when a schedule's end date is before its next scheduled send: no send can happen until the end date moves to the next send or later; %1$s = the next send date, %2$s = the end date -->
+    <string name="error_schedule_ended_date">The next send (%1$s) is after the end date (%2$s). Move the end date to %1$s or later to re-enable.</string>
+    <!-- Description of the schedule-ended banner on the SIM details screen (below its "Schedule ended." title), the editor warning and the save backstop toast, shown when a schedule's send limit is already consumed: no send can happen until the limit is raised above the number of sends already sent (they count towards the limit, raising it does not restart the schedule); %1$d = the sends already sent -->
+    <string name="error_schedule_ended_sends">Raise the send limit above %1$d to re-enable. Previous sends count towards this limit.</string>
+    <!-- Failure reason stored in the history when the SEND_SMS permission is not granted at the time of sending: the occurrence is recorded as skipped and the schedule moves to the next occurrence -->
+    <string name="error_no_permission_at_send">No SMS permission</string>
+    <!-- Failure reason stored in the history when the READ_PHONE_STATE (Phone) permission is not granted at the time of sending: the occurrence is recorded as skipped and the schedule moves to the next occurrence -->
+    <string name="error_no_phone_permission">No Phone permission</string>
+    <!-- Send history failure reason: SIM removed or disabled at send time; also the title of the missing-SIM banner on the SIM details screen (the shared Banner composable, directly on the screen above the SIM info card, shown while the SIM is not in the device; the card below shows the last known info, not the live radio state) -->
+    <string name="error_sim_not_present">SIM disabled or unplugged</string>
+    <!-- Description under the missing-SIM banner on the SIM details screen (the shared Banner composable, directly on the screen above the SIM info card, shown while the SIM is not in the device): the card's rows render the last known identity, not the live radio state -->
+    <string name="sim_missing_last_known_desc">Showing last known details, not live data.</string>
+    <!-- Failure reason stored in the history when the recipient is empty or not a valid E.164 number at the time of sending: the occurrence is marked permanently failed (no retry) and the schedule moves to the next occurrence -->
+    <string name="error_invalid_recipient">Invalid recipient phone number</string>
+    <!-- Failure reason stored in the history when the message is empty or whitespace-only at the time of sending (only a legacy or tampered row can reach this: the editor cannot save an empty message): the occurrence is marked permanently failed (no retry) and the schedule moves to the next occurrence -->
+    <string name="error_empty_message">Message is empty</string>
+    <!-- Failure reason stored in the history when the stored message exceeds the single-segment character limit at the time of sending (only a legacy or tampered row can reach this: the editor caps the message at the limit): the occurrence is marked permanently failed (no retry) and the schedule moves to the next occurrence -->
+    <string name="error_message_too_long">Message is too long</string>
+    <!-- Failure reason stored in the history when the SIM has been absent for too many consecutive attempts and the schedule is auto-disabled to prevent an infinite failure loop; %1$d = the failure threshold (e.g. 14) -->
+    <plurals name="error_sim_not_present_auto_disabled">
+        <item quantity="one">%1$d failed attempt with no SIM present</item>
+        <item quantity="other">%1$d failed attempts with no SIM present</item>
+    </plurals>
+    <!-- Failure reason stored in the history when a scheduled occurrence was missed: the app process was not running at the scheduled time (e.g. after a force stop) or the scheduled work ran late (e.g. a WorkManager delay under battery optimization); the occurrence is recorded as skipped and the schedule moves to the next occurrence -->
+    <string name="error_missed_occurrence">Missed the scheduled time (app stopped or delayed wake-up)</string>
+    <!-- Reason stored in history for the skipped occurrence that ended the schedule after reaching the send limit; %1$d = max sends -->
+    <plurals name="schedule_ended_after_sends">
+        <item quantity="one">Schedule ended after %1$d send</item>
+        <item quantity="other">Schedule ended after %1$d sends</item>
+    </plurals>
+    <!-- Reason stored in history for the skipped occurrence that ended the schedule on the end date; %1$s = formatted end date -->
+    <string name="schedule_ended_on_date">Schedule ended on %1$s</string>
+</resources>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_version">Версия %s</string>
+    <string name="nav_back">Назад</string>
+    <string name="send_count">Отправлено</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_system_default">Как в системе</string>
+
+    <string name="dashboard_sim_status_on">Активно</string>
+    <string name="dashboard_sim_status_off">Неактивно</string>
+    <string name="dashboard_no_sims_detected">SIM-карты не найдены</string>
+    <string name="dashboard_no_sims_no_phone_permission">Требуется разрешение «Телефон», чтобы показать SIM-карты</string>
+    <string name="last_sent">Последняя отправка</string>
+    <string name="next_send">Следующая отправка</string>
+    <string name="next_retry">Следующая попытка</string>
+    <string name="send_count_with_limit">%1$d/%2$d</string>
+    <string name="status_send_in">Отправка через %1$s</string>
+    <string name="status_retry_in">Повтор через %1$s</string>
+    <string name="status_overdue">Просрочено</string>
+
+    <string name="permissions_title">Разрешения</string>
+    <string name="permissions_sms">SMS</string>
+    <string name="permissions_phone">Телефон (для обнаружения SIM-карт)</string>
+    <string name="permissions_battery">Использование батареи в фоне</string>
+    <string name="permissions_auto_reset">Отключить отзыв разрешений</string>
+    <string name="permissions_auto_reset_dialog_message">Android автоматически отзывает разрешения, если вы долго не открываете приложение. На следующем экране отключите опцию «Удалять разрешения и освобождать место», «Приостановить работу, если не используется» или «Автоматическое отключение разрешений». Если такого переключателя нет, поищите в разделе «Разрешения». Точная формулировка и расположение зависят от производителя устройства и версии Android.</string>
+    <string name="permissions_auto_reset_dialog_cancel">Не сейчас</string>
+    <string name="permissions_auto_reset_dialog_open_settings">Открыть настройки</string>
+    <string name="dashboard_permission_missing">Отсутствует</string>
+    <string name="dashboard_permission_recommended">Рекомендуется</string>
+    <string name="permissions_card_hint">Нажмите на строку, чтобы предоставить разрешение.</string>
+    <string name="permissions_permanently_denied">Открываем настройки приложения. Предоставьте разрешение там.</string>
+
+    <string name="sim_detail_title">Сведения о SIM-карте</string>
+    <string name="sim_detail_title_with_slot">%1$s (SIM %2$d)</string>
+    <string name="sim_detail_title_missing">%1$s (нет SIM-карты)</string>
+    <string name="sim_carrier_unknown">Неизвестно</string>
+    <string name="sim_detail_error_icon">Ошибка SIM-карты</string>
+    <string name="sim_detail_permission_required">Для просмотра сведений о SIM-карте требуется разрешение «Телефон».</string>
+    <string name="sim_detail_removed_error">Не удалось загрузить данные SIM-карты. Возможно, она была извлечена.</string>
+    <string name="sim_detail_operator_name">Оператор</string>
+    <string name="sim_last_seen">Обнаружена</string>
+    <string name="sim_last_seen_with_slot">%1$s (слот %2$d)</string>
+    <string name="sim_forget">Забыть</string>
+    <string name="sim_forget_confirm">Забыть SIM-карту?</string>
+    <string name="sim_forget_confirm_detail">Настройки и история будут удалены. При повторном подключении SIM-карта будет распознана как новая.</string>
+    <string name="sim_detail_error">Ошибка</string>
+    <string name="sim_info_retry">Повторить</string>
+    <string name="sim_detail_roaming_on">в роуминге %1$s</string>
+    <string name="sim_send_off_schedule">Отправить вне расписания</string>
+    <string name="sim_send_off_schedule_confirm">Отправить вне расписания?</string>
+    <string name="sim_send_off_schedule_confirm_detail">Сообщение будет отправлено через %1$s. Отмена возможна до истечения таймера.</string>
+
+    <string name="settings_section_notifications">Уведомления</string>
+    <string name="settings_sticky_notification">Постоянное уведомление</string>
+    <string name="settings_sticky_notification_desc">Показывать постоянное уведомление, когда поддержание активности включено.</string>
+    <string name="settings_section_scheduling">Расписание</string>
+    <string name="settings_exact_wake_title">Точное пробуждение (эксперимент)</string>
+    <string name="settings_exact_wake_desc">Использовать точный будильник вместо планировщика системы, который может задерживаться из-за агрессивных оптимизаций батареи на некоторых устройствах. Для лучших результатов разрешите использовать батарею в фоне и дайте разрешение «Будильники и напоминания» (Android 12 и выше). Системный планировщик останется активным в качестве резервного механизма.</string>
+    <string name="settings_grace_label">Допустимое опоздание</string>
+    <string name="settings_grace_15min">15 минут</string>
+    <string name="settings_grace_1h">1 час</string>
+    <string name="settings_grace_4h">4 часа</string>
+    <string name="settings_grace_1day">1 день</string>
+    <string name="settings_grace_7day">7 дней</string>
+    <string name="settings_grace_desc">Если система разбудит приложение слишком поздно, отправка всё равно произойдёт, если она укладывается в это окно; более старые попытки отмечаются как пропущенные. Поздняя отправка может произойти даже после окончания расписания.</string>
+    <string name="settings_section_data_retention">Удаление данных</string>
+    <string name="settings_cleanup_title">Автоочистка истории</string>
+    <string name="settings_cleanup_desc">Автоматически удалять завершённые записи из истории SIM-карты по истечении заданного периода.</string>
+    <string name="settings_retention_1_month">1 месяц</string>
+    <string name="settings_retention_3_months">3 месяца</string>
+    <string name="settings_retention_6_months">6 месяцев</string>
+    <string name="settings_retention_1_year">1 год</string>
+    <string name="settings_retention_2_years">2 года</string>
+    <string name="settings_retention_5_years">5 лет</string>
+    <string name="settings_retention_10_years">10 лет</string>
+    <string name="settings_retention_20_years">20 лет</string>
+    <string name="settings_cleanup_period_label">Период</string>
+    <string name="settings_cleanup_period_value">Период: %s</string>
+    <string name="settings_cleanup_enable_title">Включить автоочистку?</string>
+    <string name="settings_cleanup_shorten_title">Сократить период хранения?</string>
+    <string name="settings_cleanup_enable_confirm">Включить</string>
+    <string name="settings_cleanup_shorten_confirm">Сократить</string>
+    <string name="settings_cleanup_confirm_detail">Записи старше выбранного периода (%s) будут удалены.</string>
+    <string name="settings_cleanup_enable_hint">Выберите период и нажмите «Сохранить», чтобы включить автоочистку.</string>
+    <plurals name="settings_cleanup_will_run">
+        <item quantity="one">Очистка произойдёт в течение %d часа.</item>
+        <item quantity="few">Очистка произойдёт в течение %d часов.</item>
+        <item quantity="many">Очистка произойдёт в течение %d часов.</item>
+        <item quantity="other">Очистка произойдёт в течение %d часов.</item>
+    </plurals>
+    <string name="settings_logs">Открыть логи</string>
+
+    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_theme_label">Тема</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_language_label">Язык</string>
+
+    <string name="log_viewer_title">Логи приложения</string>
+    <string name="log_viewer_copy">Копировать</string>
+    <string name="log_viewer_search">Поиск</string>
+    <string name="log_viewer_search_hint">Поиск в логах</string>
+    <string name="log_viewer_empty">Логов пока нет</string>
+    <string name="log_viewer_no_match">Нет логов, соответствующих запросу.</string>
+    <string name="log_viewer_copied">Скопировано в буфер обмена</string>
+    <string name="log_viewer_nothing_to_copy">Нечего копировать</string>
+
+    <string name="settings_section_about">О приложении</string>
+    <string name="settings_version_title">Версия</string>
+    <string name="settings_version_value">%1$s %2$s</string>
+    <string name="settings_about_sponsor">Купить кофе разработчику</string>
+    <string name="settings_about_sponsor_hint">Нет возможности поддержать материально? Поставьте звезду репозиторию на GitHub.</string>
+    <string name="settings_about_source_code">Исходники</string>
+    <string name="settings_about_report_bug">Сообщить об ошибке</string>
+
+    <string name="interval_just_now">Только что</string>
+    <string name="interval_in_a_moment">Через несколько секунд</string>
+    <string name="interval_never">Никогда</string>
+    <string name="interval_not_scheduled">Не запланировано</string>
+
+    <plurals name="past_minutes">
+        <item quantity="one">%d минуту назад</item>
+        <item quantity="few">%d минуты назад</item>
+        <item quantity="many">%d минут назад</item>
+        <item quantity="other">%d минут назад</item>
+    </plurals>
+    <plurals name="past_hours">
+        <item quantity="one">%d час назад</item>
+        <item quantity="few">%d часа назад</item>
+        <item quantity="many">%d часов назад</item>
+        <item quantity="other">%d часов назад</item>
+    </plurals>
+    <plurals name="past_days">
+        <item quantity="one">%d день назад</item>
+        <item quantity="few">%d дня назад</item>
+        <item quantity="many">%d дней назад</item>
+        <item quantity="other">%d дней назад</item>
+    </plurals>
+
+    <plurals name="future_minutes">
+        <item quantity="one">через %d минуту</item>
+        <item quantity="few">через %d минуты</item>
+        <item quantity="many">через %d минут</item>
+        <item quantity="other">через %d минут</item>
+    </plurals>
+    <plurals name="future_hours">
+        <item quantity="one">через %d час</item>
+        <item quantity="few">через %d часа</item>
+        <item quantity="many">через %d часов</item>
+        <item quantity="other">через %d часов</item>
+    </plurals>
+    <plurals name="future_days">
+        <item quantity="one">через %d день</item>
+        <item quantity="few">через %d дня</item>
+        <item quantity="many">через %d дней</item>
+        <item quantity="other">через %d дней</item>
+    </plurals>
+
+    <string name="duration_days">%1$dд %2$02dч %3$02dм %4$02dс</string>
+    <string name="duration_hours">%1$dч %2$02dм %3$02dс</string>
+    <string name="duration_minutes">%1$dм %2$02dс</string>
+    <string name="duration_seconds">%1$dс</string>
+
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_edit">Изменить</string>
+    <string name="action_clear">Очистить</string>
+
+    <string name="sim_config_toggle">Поддерживать активность</string>
+    <string name="sim_config_recipient">Получатель</string>
+    <string name="sim_config_recipient_invalid">Введите корректный номер телефона с кодом страны</string>
+    <string name="sim_config_message">Сообщение</string>
+    <string name="sim_config_policy">Расписание</string>
+    <string name="sim_config_message_default">Поддерживать активность SIM-карты</string>
+    <string name="sim_config_message_required">Сообщение не может быть пустым</string>
+    <string name="sim_config_send_time">Время отправки</string>
+    <string name="sim_config_frequency">Частота</string>
+    <!-- Unit word only: the count is the adjacent number field, not part of the string. -->
+    <plurals name="sim_config_frequency_days" tools:ignore="ImpliedQuantity">
+        <item quantity="one">день</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
+        <item quantity="other">дней</item>
+    </plurals>
+    <string name="sim_config_frequency_days_label">Дни</string>
+    <string name="sim_config_frequency_months_label">Месяцы</string>
+    <string name="sim_config_frequency_selected_months_label">Выбранные месяцы</string>
+    <string name="sim_config_frequency_selected_months_pick">Выберите хотя бы один месяц.</string>
+    <string name="sim_config_end_condition">Завершить</string>
+    <plurals name="sim_config_end_after_sends">
+        <item quantity="one">После %d отправки</item>
+        <item quantity="few">После %d отправок</item>
+        <item quantity="many">После %d отправок</item>
+        <item quantity="other">После %d отправок</item>
+    </plurals>
+    <string name="sim_config_end_after_sends_option">После N отправок</string>
+    <string name="sim_config_end_on_date_option">В указанную дату</string>
+    <string name="sim_config_end_date_required">Выберите дату завершения</string>
+    <string name="sim_config_time_window">Случайное окно</string>
+    <string name="sim_config_time_window_value">0–%s после заданного времени</string>
+    <string name="sim_config_time_window_minutes">%d мин</string>
+    <string name="sim_config_time_window_hours">%d ч</string>
+    <string name="sim_config_time_window_days">%d дн</string>
+    <string name="sim_config_time_window_decrease">Уменьшить окно</string>
+    <string name="sim_config_time_window_increase">Увеличить окно</string>
+    <string name="sim_config_time_window_unavailable">В это время окно недоступно, поскольку случайный сдвиг перейдёт на следующий день или месяц.</string>
+    <string name="sim_config_send_time_select">Выбрать время</string>
+    <string name="sim_config_card_sim_info">Информация о SIM-карте</string>
+    <string name="sim_config_card_schedule_rules">Правила расписания</string>
+    <string name="sim_config_step_decrease">Уменьшить</string>
+    <string name="sim_config_step_increase">Увеличить</string>
+    <string name="sim_config_frequency_every">Каждые</string>
+    <string name="sim_config_frequency_monthly_day">В день</string>
+    <string name="sim_config_saved">Настройки сохранены</string>
+    <string name="sim_config_invalid">Исправьте ошибки перед сохранением</string>
+    <string name="sim_config_will_be_enabled_on_save">Будет включено после сохранения</string>
+    <string name="sim_config_delete">Удалить</string>
+    <string name="sim_config_delete_confirm">Удалить расписание этой SIM-карты?</string>
+    <string name="sim_config_delete_confirm_detail">Расписание будет удалено, а счетчик отправок сброшен. История сохранится.</string>
+    <!-- Unit word only: the count is the adjacent number field, not part of the string. -->
+    <plurals name="sim_config_frequency_months" tools:ignore="ImpliedQuantity">
+        <item quantity="one">месяц</item>
+        <item quantity="few">месяца</item>
+        <item quantity="many">месяцев</item>
+        <item quantity="other">месяцев</item>
+    </plurals>
+    <string name="sim_config_frequency_monthly_day_hint">Если в месяце нет %d-го числа, сообщение отправится в последний день месяца.</string>
+
+    <string name="schedule_sentence">%1$s, %2$s%3$s</string>
+    <string name="schedule_freq_every_day">Каждый день</string>
+    <plurals name="schedule_freq_days">
+        <item quantity="one">Каждый %d день</item>
+        <item quantity="few">Каждые %d дня</item>
+        <item quantity="many">Каждые %d дней</item>
+        <item quantity="other">Каждые %d дней</item>
+    </plurals>
+    <string name="schedule_freq_monthly">Ежемесячно %1$d-го числа</string>
+    <plurals name="schedule_freq_months">
+        <item quantity="one">Каждый %2$d-й месяц %1$d-го числа</item>
+        <item quantity="few">Каждые %2$d месяца %1$d-го числа</item>
+        <item quantity="many">Каждые %2$d месяцев %1$d-го числа</item>
+        <item quantity="other">Каждые %2$d месяцев %1$d-го числа</item>
+    </plurals>
+    <string name="schedule_freq_monthly_short">Ежемесячно %1$d-го числа (или в последний день месяца)</string>
+    <plurals name="schedule_freq_months_short">
+        <item quantity="one">Каждый %2$d-й месяц %1$d-го числа (или в последний день месяца)</item>
+        <item quantity="few">Каждые %2$d месяца %1$d-го числа (или в последний день месяца)</item>
+        <item quantity="many">Каждые %2$d месяцев %1$d-го числа (или в последний день месяца)</item>
+        <item quantity="other">Каждые %2$d месяцев %1$d-го числа (или в последний день месяца)</item>
+    </plurals>
+    <string name="schedule_freq_selected_months">%2$d-го числа в следующих месяцах: %1$s</string>
+    <string name="schedule_freq_selected_months_short">%2$d-го числа в следующих месяцах: %1$s (или в последний день месяца)</string>
+    <string name="schedule_time_at">в %s</string>
+    <string name="schedule_time_between">в случайное время между %1$s и %2$s</string>
+    <string name="schedule_time_between_next_day">в случайное время между %1$s и %2$s следующего дня</string>
+    <plurals name="schedule_time_between_days_later">
+        <item quantity="one">в случайное время между %1$s и %2$s спустя %3$d день</item>
+        <item quantity="few">в случайное время между %1$s и %2$s спустя %3$d дня</item>
+        <item quantity="many">в случайное время между %1$s и %2$s спустя %3$d дней</item>
+        <item quantity="other">в случайное время между %1$s и %2$s спустя %3$d дней</item>
+    </plurals>
+    <string name="schedule_until_date">(до %s)</string>
+    <plurals name="schedule_stops_after_sends">
+        <item quantity="one">завершится после %d отправки</item>
+        <item quantity="few">завершится после %d отправок</item>
+        <item quantity="many">завершится после %d отправок</item>
+        <item quantity="other">завершится после %d отправок</item>
+    </plurals>
+
+    <string name="sim_history_title_count">История (%d)</string>
+    <string name="sim_history_screen_title">%1$s — история (%2$d)</string>
+    <string name="sim_history_empty">История пока пуста</string>
+    <string name="sim_history_clear_confirm">Удалить всю историю этой SIM-карты?</string>
+    <string name="sim_history_outcome_sending">Отправка...</string>
+    <string name="sim_history_outcome_sent">Отправлено</string>
+    <string name="sim_history_outcome_failed">Неудачно</string>
+    <string name="sim_history_outcome_skipped">Пропущено</string>
+    <string name="sim_history_detail_title">Детали сообщения</string>
+    <string name="sim_history_detail_scheduled">Запланировано</string>
+    <string name="sim_history_detail_sent_at">Отправлено в</string>
+    <string name="sim_history_detail_tried_at">Попытка в</string>
+    <string name="sim_history_detail_outcome">Состояние</string>
+    <string name="sim_history_detail_retries">Попытки</string>
+    <string name="sim_history_detail_failure">Причина</string>
+    <string name="sim_history_sent_successfully_on">Успешно отправлено %1$s</string>
+    <string name="sim_history_auto_clear_on">Автоочистка включена</string>
+    <string name="sim_history_auto_clear_desc">Записи старше периода «%1$s» удаляются автоматически. Это можно изменить в настройках («Удаление данных»).</string>
+    <string name="sim_history_run_cleanup_now">Очистить сейчас</string>
+    <string name="sim_history_cleanup_complete">Очистка завершена</string>
+    <plurals name="sim_history_cleanup_deleted">
+        <item quantity="one">Удалена %d запись</item>
+        <item quantity="few">Удалено %d записи</item>
+        <item quantity="many">Удалено %d записей</item>
+        <item quantity="other">Удалено %d записей</item>
+    </plurals>
+
+    <string name="notification_channel_desc">Канал уведомлений по умолчанию</string>
+    <string name="notification_status_text">Сервис активен</string>
+    <string name="notification_auto_disabled_title">Сервис отключён для %1$s</string>
+    <plurals name="notification_auto_disabled_text">
+        <item quantity="one">%1$s отсутствует после %2$d неудачной попытки.</item>
+        <item quantity="few">%1$s отсутствует после %2$d неудачных попыток.</item>
+        <item quantity="many">%1$s отсутствует после %2$d неудачных попыток.</item>
+        <item quantity="other">%1$s отсутствует после %2$d неудачных попыток.</item>
+    </plurals>
+
+    <string name="error_retry_period_exceeded">Период повторных попыток превысил 2 недели</string>
+    <string name="error_radio_off">Модуль связи выключен (авиарежим)</string>
+    <string name="error_no_service">Нет сети</string>
+    <string name="error_null_pdu">Нет данных сообщения</string>
+    <string name="error_send_failed">Не удалось отправить SMS</string>
+    <string name="error_save_failed">Не удалось сохранить расписание</string>
+    <string name="error_send_timeout">Тайм-аут отправки</string>
+    <string name="error_send_interrupted">Приложение закрылось во время отправки</string>
+    <string name="error_send_in_progress">Выполняется отправка — повторите попытку позже</string>
+    <string name="error_disabled_before_send">Отключено до отправки</string>
+    <string name="error_schedule_deleted">Расписание удалено</string>
+    <string name="error_send_cancelled">Отменено пользователем</string>
+    <string name="error_replaced_by_off_schedule">Заменено отправкой вне расписания</string>
+    <string name="error_schedule_ended">Расписание завершено</string>
+    <string name="error_schedule_ended_date">Следующая отправка (%1$s) позже даты завершения (%2$s). Измените дату завершения на %1$s или позже, чтобы включить снова.</string>
+    <string name="error_schedule_ended_sends">Увеличьте лимит отправок (сейчас %1$d), чтобы включить снова. Предыдущие отправки учитываются в этом лимите.</string>
+    <string name="error_no_permission_at_send">Нет разрешения на отправку SMS</string>
+    <string name="error_no_phone_permission">Нет разрешения «Телефон»</string>
+    <string name="error_sim_not_present">SIM-карта отключена или извлечена</string>
+    <string name="sim_missing_last_known_desc">Отображаются последние известные данные, а не текущее состояние.</string>
+    <string name="error_invalid_recipient">Неверный номер получателя</string>
+    <string name="error_empty_message">Сообщение пусто</string>
+    <string name="error_message_too_long">Сообщение слишком длинное</string>
+    <plurals name="error_sim_not_present_auto_disabled">
+        <item quantity="one">%1$d неудачная попытка без SIM-карты</item>
+        <item quantity="few">%1$d неудачные попытки без SIM-карты</item>
+        <item quantity="many">%1$d неудачных попыток без SIM-карты</item>
+        <item quantity="other">%1$d неудачных попыток без SIM-карты</item>
+    </plurals>
+    <string name="error_missed_occurrence">Пропущено запланированное время (приложение было остановлено или система задержала пробуждение)</string>
+    <plurals name="schedule_ended_after_sends">
+        <item quantity="one">Расписание завершено после %1$d отправки</item>
+        <item quantity="few">Расписание завершено после %1$d отправок</item>
+        <item quantity="many">Расписание завершено после %1$d отправок</item>
+        <item quantity="other">Расписание завершено после %1$d отправок</item>
+    </plurals>
+    <string name="schedule_ended_on_date">Расписание завершено %1$s</string>
+</resources>

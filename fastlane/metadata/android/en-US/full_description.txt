@@ -1,0 +1,30 @@
+Keep SIM Alive sends an SMS on the schedule you define so your prepaid, roaming, or backup SIM card is never deactivated for inactivity.
+
+<b>How it works</b><br>
+For each SIM on the device you set a recipient, a message, and a schedule for when the message goes out. Each keep-alive is a regular SMS: your carrier may charge for it as per your plan.
+
+<b>Features</b>
+<ul>
+<li>Dual-SIM device support</li>
+<li>Fixed send time or a random window</li>
+<li>Off-schedule manual send</li>
+<li>Send history with per-message outcomes</li>
+<li>Automatic retries if network is down or the SIM is removed</li>
+<li>Live SIM status to clearly identify the SIM</li>
+<li>Schedule per SIM card and not per slot, so the schedule follows the SIM</li>
+<li>Optional sticky notification while keep-alive is on</li>
+<li>Survives reboots and app updates</li>
+</ul>
+
+<b>Privacy</b><br>
+The app has no internet permission and makes no network calls: keep-alive messages are sent directly over the cellular network and all data stays on your device. No advertising, no tracking, no analytics.
+
+<b>Permissions</b>
+<ul>
+<li>Send SMS — the keep-alive message itself</li>
+<li>Read phone state — to properly link the schedule to a certain SIM card</li>
+<li>Show notifications — recommended for sticky notification</li>
+<li>Boot completed — to re-arm the schedule after a reboot</li>
+<li>Ignore battery optimizations — optional but recommended, for reliable wake-ups</li>
+<li>Schedule exact alarms (Android 12+) — optional and experimental, for wake-ups despite aggressive battery optimizations; recommended on devices known to kill background apps. On Android 12-14 you grant it via a separate Alarms & reminders toggle, and on Android 15+ the battery exemption above grants it automatically</li>
+</ul>

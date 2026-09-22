@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- A new locale must be added here, to the setAppLanguage guard (SettingsViewModel)
+         and to the in-app language dropdown (SettingsScreen), plus its values-<tag> resources. -->
+    <locale android:name="en" />
+    <locale android:name="ru" />
+</locale-config>

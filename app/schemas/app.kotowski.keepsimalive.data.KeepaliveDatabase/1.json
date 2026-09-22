@@ -1,0 +1,233 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "e87aaef08cc29d5d65a8f17e2c6bbeb9",
+    "entities": [
+      {
+        "tableName": "sim_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`simId` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `recipientPhone` TEXT NOT NULL, `message` TEXT NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `freqType` INTEGER NOT NULL, `daysInterval` INTEGER NOT NULL, `monthsInterval` INTEGER NOT NULL, `dayOfMonth` INTEGER NOT NULL, `selectedMonths` TEXT NOT NULL, `endType` INTEGER NOT NULL, `maxSends` INTEGER NOT NULL, `endDate` TEXT, `timeWindowMinutes` INTEGER NOT NULL, `nextSendAtMillis` INTEGER, `lastSentAtMillis` INTEGER, `lastSentOccurrenceMillis` INTEGER, `sendCount` INTEGER NOT NULL, PRIMARY KEY(`simId`))",
+        "fields": [
+          {
+            "fieldPath": "simId",
+            "columnName": "simId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recipientPhone",
+            "columnName": "recipientPhone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hour",
+            "columnName": "hour",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minute",
+            "columnName": "minute",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "freqType",
+            "columnName": "freqType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daysInterval",
+            "columnName": "daysInterval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthsInterval",
+            "columnName": "monthsInterval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayOfMonth",
+            "columnName": "dayOfMonth",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "selectedMonths",
+            "columnName": "selectedMonths",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endType",
+            "columnName": "endType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxSends",
+            "columnName": "maxSends",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeWindowMinutes",
+            "columnName": "timeWindowMinutes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextSendAtMillis",
+            "columnName": "nextSendAtMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSentAtMillis",
+            "columnName": "lastSentAtMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSentOccurrenceMillis",
+            "columnName": "lastSentOccurrenceMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sendCount",
+            "columnName": "sendCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "simId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "send_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `simId` INTEGER NOT NULL, `scheduledForMillis` INTEGER NOT NULL, `occurrenceBaseMillis` INTEGER NOT NULL, `lastAttemptAtMillis` INTEGER, `outcome` TEXT NOT NULL, `failureReason` TEXT, `recipient` TEXT NOT NULL, `message` TEXT NOT NULL, `firstAttemptAtMillis` INTEGER, `retryCount` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "simId",
+            "columnName": "simId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scheduledForMillis",
+            "columnName": "scheduledForMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "occurrenceBaseMillis",
+            "columnName": "occurrenceBaseMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastAttemptAtMillis",
+            "columnName": "lastAttemptAtMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "outcome",
+            "columnName": "outcome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "failureReason",
+            "columnName": "failureReason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recipient",
+            "columnName": "recipient",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstAttemptAtMillis",
+            "columnName": "firstAttemptAtMillis",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "retryCount",
+            "columnName": "retryCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_send_history_simId_scheduledForMillis",
+            "unique": false,
+            "columnNames": [
+              "simId",
+              "scheduledForMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_send_history_simId_scheduledForMillis` ON `${TABLE_NAME}` (`simId`, `scheduledForMillis`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e87aaef08cc29d5d65a8f17e2c6bbeb9')"
+    ]
+  }
+}
