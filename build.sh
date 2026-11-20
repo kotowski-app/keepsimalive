@@ -9,21 +9,24 @@ Builds the app and sideloads it to every connected adb device.
 
 Steps:
   1. Build the requested variant (debug by default). By default this first
-     runs the same gate as CI: ./gradlew check (full lint + unit tests).
+     runs the ktlint and PII gates, then the same gate as CI:
+     ./gradlew check (full lint + unit tests).
   2. Install the resulting APK on every connected device.
 
 Options:
-  debug            Build/install the debug variant (default)
-  release          Build/install the release variant
-  --install-only   Skip the build; install the last built APK as-is
-  --no-checks      Build without the check gate (lint + unit tests)
-  -h, --help       Show this help and exit
+   debug            Build/install the debug variant (default)
+   release          Build/install the release variant
+   --install-only   Skip the build; install the last built APK as-is
+   --no-checks      Build without the check gate (lint + unit tests)
+   -h, --help       Show this help and exit
 EOF
 }
 
 INSTALL_ONLY=false
 CHECKS=true
 BUILD_TYPE="debug"
+FLAVOR="vanilla"
+KTLINT="/usr/local/bin/ktlint"
 
 for arg in "$@"; do
     case "$arg" in
@@ -37,11 +40,22 @@ done
 
 if [ "$INSTALL_ONLY" = false ]; then
     if [ "$CHECKS" = true ]; then
-        echo "[build] Running CI gate (check) + assembling vanilla-${BUILD_TYPE}..."
-        ./gradlew check "assembleVanilla${BUILD_TYPE^}"
+        if [ ! -x "$KTLINT" ]; then
+            echo "Error: ktlint not found at $KTLINT — install it from https://github.com/ktlint/ktlint"
+            exit 1
+        fi
+        # ktlint CLI does not honor .gitignore; app/build/** holds generated code that fails style rules
+        echo "[build] Running ktlint gate..."
+        "$KTLINT" "**/*.kt" "**/*.kts" "!app/build/**" "!tmp/**"
+        echo "[build] Running PII gate..."
+        ./scripts/check-test-pii.sh
+        echo "[build] Running CI gate (check) + assembling ${FLAVOR}-${BUILD_TYPE}..."
+        ./gradlew --init-script scripts/jacoco.init.gradle check "assemble${FLAVOR^}${BUILD_TYPE^}"
+        echo "[build] Measuring test coverage..."
+        ./scripts/coverage.sh
     else
-        echo "[build] Assembling vanilla-${BUILD_TYPE} (checks skipped)..."
-        ./gradlew "assembleVanilla${BUILD_TYPE^}"
+        echo "[build] Assembling ${FLAVOR}-${BUILD_TYPE} (checks skipped)..."
+        ./gradlew "assemble${FLAVOR^}${BUILD_TYPE^}"
     fi
 else
     echo "[build] Skipped (--install-only)"

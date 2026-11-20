@@ -13,6 +13,7 @@ import app.kotowski.keepsimalive.R
 import app.kotowski.keepsimalive.ui.theme.ThemePreference
 import app.kotowski.keepsimalive.util.AppConfig
 import app.kotowski.keepsimalive.util.AppPrefs
+import app.kotowski.keepsimalive.util.LogBuffer
 import app.kotowski.keepsimalive.util.Logger
 import app.kotowski.keepsimalive.util.PermissionManager
 import app.kotowski.keepsimalive.util.ToastUtil
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 // The period proposed when the user turns history retention on for the first time:
@@ -61,6 +63,9 @@ data class SettingsUiState(
     val themeMode: String = AppPrefs.THEME_MODE_SYSTEM,
     // The app-specific language tag ("" = follow the system language, the default; "en"; "ru").
     val appLanguage: String = "",
+    // Off by default: while true, log entries are also appended to the file that
+    // survives process death.
+    val logToFileEnabled: Boolean = false,
 )
 
 @HiltViewModel
@@ -90,6 +95,7 @@ class SettingsViewModel
                     lateSendGraceMinutes = prefs.lateSendGraceMinutes,
                     themeMode = prefs.themeMode,
                     appLanguage = currentAppLanguage(),
+                    logToFileEnabled = prefs.logToFileEnabled,
                 ),
             )
         val state: StateFlow<SettingsUiState> = _state.asStateFlow()
@@ -182,12 +188,15 @@ class SettingsViewModel
 
         // Re-reads the live permission (the screen drives it on every resume and after the
         // system page returns): the toggle shows the active state again, and the exact
-        // alarms follow the gate (a grant arms them, a revoke cancels them).
+        // alarms follow the gate on a change (a grant arms them, a revoke cancels them).
+        // An unchanged state syncs nothing: a no-change re-sync would re-arm every pending
+        // alarm on every resume, logging a line per SIM for a no-op.
         fun refreshExactAlarmPermission() {
             val granted = permissionManager.canScheduleExactAlarms()
             val wasGranted = _state.value.exactAlarmGranted
+            if (wasGranted == granted) return
             _state.update { it.copy(exactAlarmGranted = granted) }
-            if (prefs.exactWakeEnabled && wasGranted != granted) {
+            if (prefs.exactWakeEnabled) {
                 Logger.w(
                     "SettingsVM",
                     "Alarms & reminders permission ${if (granted) "re-granted" else "revoked"} while exact wake-up is on",
@@ -228,6 +237,18 @@ class SettingsViewModel
             )
             prefs.appLanguageTag = tag
             _state.update { it.copy(appLanguage = tag) }
+        }
+
+        // The persistence follows the toggle at runtime, without a restart.
+        fun setLogToFile(value: Boolean) {
+            prefs.logToFileEnabled = value
+            _state.update { it.copy(logToFileEnabled = value) }
+            Logger.i("SettingsVM", "log to file ${if (value) "enabled" else "disabled"}")
+            if (value) {
+                LogBuffer.enableFileStore(File(appContext.filesDir, AppConfig.LOG_FILE_NAME))
+            } else {
+                LogBuffer.disableFileStore()
+            }
         }
 
         // The current app-specific language tag ("en") or "" while the system language is

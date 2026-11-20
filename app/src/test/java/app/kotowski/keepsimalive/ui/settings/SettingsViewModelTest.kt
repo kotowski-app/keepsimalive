@@ -6,7 +6,10 @@ import androidx.core.os.LocaleListCompat
 import androidx.work.WorkManager
 import androidx.work.testing.WorkManagerTestInitHelper
 import app.kotowski.keepsimalive.ui.theme.ThemePreference
+import app.kotowski.keepsimalive.util.AppConfig
 import app.kotowski.keepsimalive.util.AppPrefs
+import app.kotowski.keepsimalive.util.LogBuffer
+import app.kotowski.keepsimalive.util.LogFileStore
 import app.kotowski.keepsimalive.util.PermissionManager
 import app.kotowski.keepsimalive.work.ScheduleArmer
 import app.kotowski.keepsimalive.work.ScheduleReconciler
@@ -34,6 +37,8 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlarmManager
+import java.io.File
+import java.util.concurrent.Executor
 
 // Real AppPrefs and the test WorkManager: the enable path persists the period and enqueues a
 // one-time reconcile, and both are asserted on the real stores instead of mocks.
@@ -64,6 +69,7 @@ class SettingsViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        LogBuffer.resetForTests()
     }
 
     private fun vm() = SettingsViewModel(context, prefs, ThemePreference(prefs), reconciler, armer, PermissionManager(context))
@@ -179,14 +185,31 @@ class SettingsViewModelTest {
 
     @Config(sdk = [33])
     @Test
-    fun `refreshing with the permission granted arms the exact alarms`() =
+    fun `refreshing after a permission grant arms the exact alarms`() =
+        runBlocking {
+            ShadowAlarmManager.setCanScheduleExactAlarms(false)
+            whenever(armer.exactWakeActive()).thenReturn(true)
+            val vm = vm()
+            ShadowAlarmManager.setCanScheduleExactAlarms(true)
+            vm.refreshExactAlarmPermission()
+            assertTrue(vm.state.value.exactAlarmGranted)
+            verify(armer).rearmAllExactAlarms()
+            verify(armer, never()).cancelAllExactAlarms()
+        }
+
+    // The screen drives the refresh on every resume: while the permission is unchanged it
+    // must sync nothing, or every resume would re-arm all pending alarms (one log line per
+    // SIM for a no-op).
+    @Config(sdk = [33])
+    @Test
+    fun `refreshing with an unchanged permission syncs nothing`() =
         runBlocking {
             ShadowAlarmManager.setCanScheduleExactAlarms(true)
             whenever(armer.exactWakeActive()).thenReturn(true)
             val vm = vm()
             vm.refreshExactAlarmPermission()
             assertTrue(vm.state.value.exactAlarmGranted)
-            verify(armer).rearmAllExactAlarms()
+            verify(armer, never()).rearmAllExactAlarms()
             verify(armer, never()).cancelAllExactAlarms()
         }
 
@@ -309,6 +332,35 @@ class SettingsViewModelTest {
 
     // The POST_NOTIFICATIONS gate only exists from API 33 (the suite default is 29, where
     // the permission is granted with the manifest and needs no runtime state).
+    @Test
+    fun `logToFileEnabled reads the stored pref into state on init`() {
+        assertFalse(vm().state.value.logToFileEnabled)
+        prefs.logToFileEnabled = true
+        assertTrue(vm().state.value.logToFileEnabled)
+    }
+
+    // The direct executor makes the file effects synchronous (production uses a daemon thread).
+    @Test
+    fun `setLogToFile persists the flag, updates state and the log file follows the toggle`() {
+        LogBuffer.clear()
+        LogBuffer.init(
+            LogFileStore(File.createTempFile("settings-log", ".log").apply { delete() }),
+            Executor { it.run() },
+        )
+        val logFile = File(context.filesDir, AppConfig.LOG_FILE_NAME)
+        val vm = vm()
+        vm.setLogToFile(true)
+        assertTrue(prefs.logToFileEnabled)
+        assertTrue(vm.state.value.logToFileEnabled)
+        LogBuffer.addInfo("LogToFileTag", "persisted through the toggle")
+        assertTrue("the enable must create the file", logFile.exists())
+        assertTrue(logFile.readText().contains("persisted through the toggle"))
+        vm.setLogToFile(false)
+        assertFalse(prefs.logToFileEnabled)
+        assertFalse(vm.state.value.logToFileEnabled)
+        assertTrue("the disable must delete the file", !logFile.exists())
+    }
+
     @Test
     fun `below the gate the notifications permission is unconditionally granted`() {
         assertTrue(vm().state.value.notificationsGranted)

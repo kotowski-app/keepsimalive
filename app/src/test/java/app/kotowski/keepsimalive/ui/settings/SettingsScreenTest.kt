@@ -124,6 +124,8 @@ class SettingsScreenTest {
 
     private fun exactWakeToggle() = composeTestRule.onNodeWithTag("toggle_exact_wake")
 
+    private fun logToFileToggle() = composeTestRule.onNodeWithTag("toggle_log_to_file")
+
     private fun graceDropdown() = composeTestRule.onNodeWithTag("dropdown_late_send_grace")
 
     private fun themeDropdown() = composeTestRule.onNodeWithTag("dropdown_theme")
@@ -142,6 +144,9 @@ class SettingsScreenTest {
         // trailing chevron — a row, not a filled button: it goes somewhere, it does
         // nothing).
         composeTestRule.onNodeWithText("App logs").assertIsDisplayed()
+        // The "Log to file" toggle leads the section, above the "Open logs" navigation row.
+        composeTestRule.onNodeWithText("Log to file", substring = false).assertIsDisplayed()
+        logToFileToggle().assertIsOff()
         composeTestRule.onNodeWithText("Open logs", substring = false).assertIsDisplayed()
         composeTestRule.onNodeWithTag("open_logs").assertIsDisplayed()
         // While off the period row is hidden: there is nothing to edit yet.
@@ -658,6 +663,49 @@ class SettingsScreenTest {
         assertEquals("ru", viewModel.state.value.appLanguage)
         // The menu is dismissed after the pick, so the field is the only "Русский" node.
         composeTestRule.onNodeWithText("Русский", substring = false).assertIsDisplayed()
+    }
+
+    @Test
+    fun `toggling the log to file on persists the pref without a dialog`() {
+        render()
+        logToFileToggle().performClick()
+        assertTrue(prefs.logToFileEnabled)
+        logToFileToggle().assertIsOn()
+        composeTestRule.onNodeWithText("Turn off log to file?").assertDoesNotExist()
+    }
+
+    @Test
+    fun `toggling the log to file off waits for the confirm dialog, and confirming commits it`() {
+        prefs.logToFileEnabled = true
+        viewModel =
+            SettingsViewModel(
+                appContext,
+                prefs,
+                ThemePreference(prefs),
+                mock<ScheduleReconciler>(),
+                mock<ScheduleArmer>(),
+                PermissionManager(appContext),
+            )
+        render()
+        logToFileToggle().assertIsOn()
+        logToFileToggle().performClick()
+        composeTestRule.onNodeWithText("Turn off log to file?").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText("The log file will be deleted. Copy the logs first if you want to keep them.")
+            .assertIsDisplayed()
+        assertTrue(prefs.logToFileEnabled)
+        composeTestRule
+            .onAllNodesWithText("Cancel", useUnmergedTree = true)
+            .onLast()
+            .performClick()
+        composeTestRule.onNodeWithText("Turn off log to file?").assertDoesNotExist()
+        assertTrue(prefs.logToFileEnabled)
+        logToFileToggle().assertIsOn()
+        // Confirming commits the disable.
+        logToFileToggle().performClick()
+        composeTestRule.onNodeWithTag("log_to_file_disable_confirm").performClick()
+        assertFalse(prefs.logToFileEnabled)
+        logToFileToggle().assertIsOff()
     }
 
     @Test

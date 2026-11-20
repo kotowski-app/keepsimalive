@@ -1,0 +1,5 @@
+- Optional persistent logging
+- Reversed logging order (newest first)
+- Log timestamps in UTC
+- Updated color palette in the app icon
+- Themed monochrome icon on Android 13+

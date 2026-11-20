@@ -24,7 +24,7 @@ captures/
 .cxx
 
 # Key material — never commit
-*.keystore
+*keystore*
 *.jks
 *.p12
 

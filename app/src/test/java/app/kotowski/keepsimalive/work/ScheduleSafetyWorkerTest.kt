@@ -9,9 +9,11 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import androidx.work.impl.WorkManagerImpl
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.testing.WorkManagerTestInitHelper
 import androidx.work.workDataOf
+import app.kotowski.keepsimalive.util.LogBuffer
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -21,7 +23,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.mockingDetails
 import org.mockito.kotlin.doSuspendableAnswer
+import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
@@ -44,19 +49,20 @@ class ScheduleSafetyWorkerTest {
             .apply()
     }
 
+    private fun reconcilerFactory(reconciler: ScheduleReconciler): WorkerFactory =
+        object : WorkerFactory() {
+            override fun createWorker(
+                appContext: Context,
+                workerClassName: String,
+                workerParameters: WorkerParameters,
+            ): ListenableWorker = ScheduleSafetyWorker(appContext, workerParameters, reconciler)
+        }
+
     private fun worker(
         reconciler: ScheduleReconciler,
         afterTimezoneChange: Boolean = false,
         staleCheckSimId: Int = -1,
     ): ScheduleSafetyWorker {
-        val factory =
-            object : WorkerFactory() {
-                override fun createWorker(
-                    appContext: Context,
-                    workerClassName: String,
-                    workerParameters: WorkerParameters,
-                ): ListenableWorker = ScheduleSafetyWorker(appContext, workerParameters, reconciler)
-            }
         val builder = TestListenableWorkerBuilder.from(context, ScheduleSafetyWorker::class.java)
         val inputs =
             buildList {
@@ -70,8 +76,18 @@ class ScheduleSafetyWorkerTest {
         if (inputs.isNotEmpty()) {
             builder.setInputData(workDataOf(*inputs.toTypedArray()))
         }
-        builder.setWorkerFactory(factory)
+        builder.setWorkerFactory(reconcilerFactory(reconciler))
         return builder.build()
+    }
+
+    // The factory must be configured, not left to reflection: the worker needs the
+    // mocked reconciler injected.
+    private fun initWorkManager(reconciler: ScheduleReconciler) {
+        WorkManagerTestInitHelper.initializeTestWorkManager(
+            context,
+            Configuration.Builder().setWorkerFactory(reconcilerFactory(reconciler)).build(),
+            WorkManagerTestInitHelper.ExecutorsMode.LEGACY_OVERRIDE_WITH_SYNCHRONOUS_EXECUTORS,
+        )
     }
 
     @Test
@@ -100,6 +116,68 @@ class ScheduleSafetyWorkerTest {
         runBlocking {
             verify(reconciler).reconcileAll()
             verify(reconciler, never()).recomputeAfterTimezoneChange()
+        }
+    }
+
+    @Test
+    fun `the periodic sweep logs its start`() {
+        val reconciler = mock<ScheduleReconciler>()
+        initWorkManager(reconciler)
+        ScheduleSafetyWorker.recordAnchor(context, ScheduleSafetyWorker.captureClock())
+        LogBuffer.clear()
+
+        ScheduleSafetyWorker.enqueuePeriodic(context)
+
+        // The first run starts on a background executor: wait for its entry (the
+        // reconciler call) before asserting on the log line that precedes it.
+        val reconcilerInvoked = { mockingDetails(reconciler).invocations.isNotEmpty() }
+        val deadline = System.currentTimeMillis() + 10_000
+        while (!reconcilerInvoked() && System.currentTimeMillis() < deadline) {
+            Thread.sleep(50)
+        }
+        assertTrue(
+            LogBuffer.entries.any {
+                it.level == "I" && it.tag == "ScheduleSafetyWorker" &&
+                    it.message.contains("periodic safety sweep")
+            },
+        )
+        runBlocking { verify(reconciler).reconcileAll() }
+    }
+
+    @Test
+    fun `the once reconcile does not log the sweep start`() {
+        val reconciler = mock<ScheduleReconciler>()
+        initWorkManager(reconciler)
+        ScheduleSafetyWorker.recordAnchor(context, ScheduleSafetyWorker.captureClock())
+        LogBuffer.clear()
+
+        ScheduleSafetyWorker.enqueueOnce(context)
+
+        assertTrue(LogBuffer.entries.none { it.message.contains("periodic safety sweep") })
+        runBlocking { verify(reconciler).reconcileAll() }
+    }
+
+    @Test
+    fun `a failed work info read skips the sweep start log without failing the run`() {
+        val failingWorkManager =
+            mock<WorkManagerImpl> {
+                on {
+                    getWorkInfosForUniqueWork(anyString())
+                } doThrow IllegalStateException("state read down")
+            }
+        WorkManagerImpl.setDelegate(failingWorkManager)
+        try {
+            ScheduleSafetyWorker.recordAnchor(context, ScheduleSafetyWorker.captureClock())
+            val reconciler = mock<ScheduleReconciler>()
+            LogBuffer.clear()
+
+            val result = runBlocking { worker(reconciler).doWork() }
+
+            assertEquals(ListenableWorker.Result.success(), result)
+            assertTrue(LogBuffer.entries.none { it.message.contains("periodic safety sweep") })
+            runBlocking { verify(reconciler).reconcileAll() }
+        } finally {
+            WorkManagerImpl.setDelegate(null)
         }
     }
 

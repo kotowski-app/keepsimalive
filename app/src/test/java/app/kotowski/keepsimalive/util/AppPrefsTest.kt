@@ -52,6 +52,16 @@ class AppPrefsTest {
     }
 
     @Test
+    fun `logToFileEnabled defaults to off and round-trips`() {
+        val prefs = AppPrefs(context)
+        assertFalse(prefs.logToFileEnabled)
+        prefs.logToFileEnabled = true
+        assertTrue(prefs.logToFileEnabled)
+        prefs.logToFileEnabled = false
+        assertFalse(prefs.logToFileEnabled)
+    }
+
+    @Test
     fun `themeMode defaults to system, stores a valid mode and degrades a tampered one`() {
         val prefs = AppPrefs(context)
         assertEquals(AppPrefs.THEME_MODE_SYSTEM, prefs.themeMode)

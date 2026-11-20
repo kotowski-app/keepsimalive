@@ -67,6 +67,18 @@ object AppConfig {
     // Debug log ring size.
     const val LOG_BUFFER_MAX_ENTRIES: Int = 500
 
+    // The "Log to file" toggle: the rolling size cap (oldest lines rotate out) and the
+    // location under the app's files directory.
+    const val LOG_FILE_MAX_BYTES: Int = 64 * 1024
+    const val LOG_FILE_NAME: String = "logs/keepsimalive.log"
+
+    // Per-message cap (chars): bounds the per-line size in the file.
+    const val LOG_MAX_MESSAGE_LENGTH: Int = 2_000
+
+    // Worst-case line length in UTF-8 bytes: the char-capped message (a char takes up to
+    // 4 bytes) plus the fixed timestamp/level/tag overhead.
+    const val LOG_MAX_LINE_BYTES: Int = LOG_MAX_MESSAGE_LENGTH * 4 + 256
+
     // How long after the scheduled time the UI keeps the in-progress display (dashboard
     // spinner, "in 0s") before declaring the send late.
     const val IN_FLIGHT_GRACE_MS: Long = 5_000L

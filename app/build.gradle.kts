@@ -22,8 +22,8 @@ android {
         //   - 0.7.22  -> (0 * 1,000,000) + (7 * 1,000) + 22 = 7022
         //   - 0.9     -> (0 * 1,000,000) + (9 * 1,000)      = 9000
         //   - 2.0.13  -> (2 * 1,000,000) + (0 * 1,000) + 13 = 2000013
-        versionCode = 1000000
-        versionName = "1.0.0"
+        versionCode = 1000001
+        versionName = "1.0.1"
     }
 
     flavorDimensions += "distribution"
@@ -35,11 +35,12 @@ android {
     }
 
     // Release signing (reproducible F-Droid builds):
-    // - local/ is gitignored: the keystore and its passwords must never reach the public repo
+    // - the keystore and its properties are gitignored at the repo root: the key
+    //   material and passwords must never reach the public repo
     // - when the keystore is absent (F-Droid's build server) the release builds unsigned
     //   and F-Droid signs it with the developer key they hold for reproducible builds
-    val releaseKeystore = file("$rootDir/local/release.keystore")
-    val releaseKeystoreProps = file("$rootDir/local/release-keystore.properties")
+    val releaseKeystore = file("$rootDir/release.keystore")
+    val releaseKeystoreProps = file("$rootDir/release-keystore.properties")
     val hasReleaseKeystore = releaseKeystore.exists() && releaseKeystoreProps.exists()
 
     signingConfigs {

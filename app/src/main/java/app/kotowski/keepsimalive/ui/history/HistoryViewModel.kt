@@ -8,6 +8,7 @@ import app.kotowski.keepsimalive.data.SendHistoryEntity
 import app.kotowski.keepsimalive.data.isTerminal
 import app.kotowski.keepsimalive.util.AppConfig
 import app.kotowski.keepsimalive.util.AppPrefs
+import app.kotowski.keepsimalive.util.Logger
 import app.kotowski.keepsimalive.util.SimNameResolver
 import app.kotowski.keepsimalive.util.appLocaleContext
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -160,7 +161,9 @@ class HistoryViewModel
             // live window re-emits the survivors once the delete commits — the list empties
             // with that re-emit, at most the surviving in-flight row remaining.
             viewModelScope.launch {
-                keepaliveRepository.clearHistory(loadedSimId ?: return@launch)
+                val simId = loadedSimId ?: return@launch
+                keepaliveRepository.clearHistory(simId)
+                Logger.i("HistoryVM", "simId=$simId history cleared")
             }
         }
 

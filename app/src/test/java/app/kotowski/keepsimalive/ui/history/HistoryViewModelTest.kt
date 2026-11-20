@@ -11,6 +11,7 @@ import app.kotowski.keepsimalive.data.isTerminal
 import app.kotowski.keepsimalive.util.AppConfig
 import app.kotowski.keepsimalive.util.AppPrefs
 import app.kotowski.keepsimalive.util.CachedSimIdentity
+import app.kotowski.keepsimalive.util.LogBuffer
 import app.kotowski.keepsimalive.util.SimIdentityCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -361,6 +362,31 @@ class HistoryViewModelTest {
                 vm.state.value.history
                     .isEmpty(),
             )
+        }
+
+    @Test
+    fun `clearHistory logs the clear`() =
+        runBlocking {
+            LogBuffer.clear()
+            val vm = viewModel()
+            load(vm)
+            vm.clearHistory()
+            verifyBlocking(repository) { clearHistory(11) }
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "HistoryVM" &&
+                        it.message.contains("simId=11") && it.message.contains("history cleared")
+                },
+            )
+        }
+
+    @Test
+    fun `clearHistory without a loaded sim logs nothing`() =
+        runBlocking {
+            LogBuffer.clear()
+            val vm = viewModel()
+            vm.clearHistory()
+            assertTrue(LogBuffer.entries.none { it.tag == "HistoryVM" })
         }
 
     @Test

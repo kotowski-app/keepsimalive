@@ -15,6 +15,7 @@ import app.kotowski.keepsimalive.data.KeepaliveRepository
 import app.kotowski.keepsimalive.data.SimKeepaliveConfig
 import app.kotowski.keepsimalive.receiver.SendAlarmReceiver
 import app.kotowski.keepsimalive.util.AppPrefs
+import app.kotowski.keepsimalive.util.LogBuffer
 import app.kotowski.keepsimalive.util.PermissionManager
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -82,6 +83,23 @@ class ScheduleArmerTest {
             assertTrue(
                 "runAfter ${info.nextScheduleTimeMillis} not within 5s of $nextSend",
                 Math.abs(info.nextScheduleTimeMillis - nextSend) < 5_000,
+            )
+        }
+
+    @Test
+    fun `armSend logs the armed send time`() =
+        runBlocking {
+            LogBuffer.clear()
+            val nextSend = System.currentTimeMillis() + 3 * 3_600_000L
+            whenever(repository.getConfig(1)).thenReturn(enabledConfig(nextSend))
+
+            assertTrue(armer.armSend(1))
+
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "ScheduleArmer" &&
+                        it.message.contains("simId=1") && it.message.contains(nextSend.toString())
+                },
             )
         }
 
@@ -323,6 +341,7 @@ class ScheduleArmerTest {
 
     // Only the exact-alarm wakes: the WorkManager wake above also parks a PendingIntent alarm
     // of its own, so count alarms whose intent targets the receiver, not every scheduled alarm.
+    @Suppress("DEPRECATION")
     private fun shadowAlarms(): List<ShadowAlarmManager.ScheduledAlarm> =
         (
             shadowOf(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
@@ -350,8 +369,8 @@ class ScheduleArmerTest {
 
             val alarms = shadowAlarms()
             assertEquals(1, alarms.size)
-            assertEquals(nextSend, alarms[0].triggerAtTime)
-            assertTrue(alarms[0].allowWhileIdle)
+            assertEquals(nextSend, alarms[0].getTriggerAtMs())
+            assertTrue(alarms[0].isAllowWhileIdle())
         }
 
     @Config(sdk = [33])
@@ -365,7 +384,8 @@ class ScheduleArmerTest {
 
         val alarms = shadowAlarms()
         assertEquals(1, alarms.size)
-        assertTrue("alarm triggered at ${alarms[0].triggerAtTime} should be >= now, not $pastTime", alarms[0].triggerAtTime >= pastTime)
+        val triggerAtTime = alarms[0].getTriggerAtMs()
+        assertTrue("alarm triggered at $triggerAtTime should be >= now, not $pastTime", triggerAtTime >= pastTime)
     }
 
     @Test

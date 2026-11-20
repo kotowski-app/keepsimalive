@@ -1,0 +1,29 @@
+// JaCoCo agent wiring for the app's unit tests (used by scripts/coverage.sh and
+// build.sh's check gate).
+//
+// Two non-obvious options, both verified necessary:
+// * includeNoLocationClasses: Robolectric's sandbox classloader defines the app
+//   classes without a code source location. The agent silently skips such classes
+//   by default, which zeroes the coverage of every class only touched by
+//   Robolectric tests (80 of the 146 test files use Robolectric) - the measured
+//   total drops from ~82% to ~22%.
+// * includes=app.kotowski.*: without a name filter, includeNoLocationClasses makes
+//   the agent also instrument JDK-internal generated classes (e.g.
+//   jdk.internal.reflect.GeneratedSerializationConstructorAccessor*), which
+//   crashes the Gradle test worker at startup.
+allprojects { p ->
+    if (p.name == 'app') {
+        p.apply plugin: 'jacoco'
+        p.gradle.taskGraph.whenReady { g ->
+            g.allTasks.each { t ->
+                if (t.name == 'testVanillaDebugUnitTest') {
+                    def ext = t.extensions.findByName('jacoco')
+                    if (ext != null) {
+                        ext.includeNoLocationClasses = true
+                        ext.includes = ['app.kotowski.*']
+                    }
+                }
+            }
+        }
+    }
+}

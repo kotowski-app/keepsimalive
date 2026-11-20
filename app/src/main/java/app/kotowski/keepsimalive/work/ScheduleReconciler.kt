@@ -722,6 +722,9 @@ class ScheduleSafetyWorker
     ) : CoroutineWorker(appContext, params) {
         override suspend fun doWork(): Result =
             try {
+                if (isPeriodicRun()) {
+                    Logger.i("ScheduleSafetyWorker", "periodic safety sweep started")
+                }
                 // The flag alone must force the recompute (a same-offset zone change can
                 // still have divergent future DST rules). The anchor diff is authoritative
                 // on top of it: it catches transitions that happened while the app was
@@ -764,6 +767,17 @@ class ScheduleSafetyWorker
                 Logger.e("ScheduleSafetyWorker", "reconcile failed: ${e.message}", e)
                 Result.retry()
             }
+
+        // The unique work name is not exposed to the worker, so the own id is matched
+        // against the periodic work's info; a failed read only skips the log line.
+        private fun isPeriodicRun(): Boolean =
+            runCatching {
+                WorkManager
+                    .getInstance(applicationContext)
+                    .getWorkInfosForUniqueWork(WORK_NAME_PERIODIC)
+                    .get(2, TimeUnit.SECONDS)
+                    .any { it.id == id }
+            }.getOrDefault(false)
 
         companion object {
             const val WORK_NAME_PERIODIC = "keepalive_safety_periodic"

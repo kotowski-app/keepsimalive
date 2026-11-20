@@ -34,6 +34,14 @@ class AppPrefs(
             prefs.edit().putBoolean(KEY_EXACT_WAKE_ENABLED, value).apply()
         }
 
+    // Settings toggle (off by default): while true every log entry is also appended to
+    // the capped file that survives process death; its tail loads back at the next start.
+    var logToFileEnabled: Boolean
+        get() = prefs.getBoolean(KEY_LOG_TO_FILE_ENABLED, false)
+        set(value) {
+            prefs.edit().putBoolean(KEY_LOG_TO_FILE_ENABLED, value).apply()
+        }
+
     // Late-send grace (minutes, one of LATE_SEND_GRACE_PRESETS; 15 = the default): how far
     // past the scheduled time a late wake still attempts the occurrence instead of consuming
     // it as missed. A stored value outside the presets (legacy or tampered) degrades to the
@@ -128,6 +136,7 @@ class AppPrefs(
         private const val KEY_RHYTHM_RESET_AT_PREFIX = "rhythm_reset_at_"
         private const val KEY_SHOW_STICKY_NOTIFICATION = "show_sticky_notification"
         private const val KEY_EXACT_WAKE_ENABLED = "exact_wake_enabled"
+        private const val KEY_LOG_TO_FILE_ENABLED = "log_to_file_enabled"
         private const val KEY_LATE_SEND_GRACE_MINUTES = "late_send_grace_minutes"
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_APP_LANGUAGE_TAG = "app_language_tag"

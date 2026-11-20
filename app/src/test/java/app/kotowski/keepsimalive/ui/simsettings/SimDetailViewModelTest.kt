@@ -10,6 +10,7 @@ import app.kotowski.keepsimalive.data.SendOutcome
 import app.kotowski.keepsimalive.data.SimKeepaliveConfig
 import app.kotowski.keepsimalive.util.AppConfig
 import app.kotowski.keepsimalive.util.AppPrefs
+import app.kotowski.keepsimalive.util.LogBuffer
 import app.kotowski.keepsimalive.work.OffSchedulePendingRegistry
 import app.kotowski.keepsimalive.work.ScheduleArmer
 import app.kotowski.keepsimalive.work.ScheduleReconciler
@@ -131,6 +132,118 @@ class SimDetailViewModelTest {
             assertTrue(vm.state.value.justSaved)
             vm.clearSavedFlag()
             assertFalse(vm.state.value.justSaved)
+        }
+
+    @Test
+    fun `saveConfig logs the committed enabled state and the armed time`() =
+        runBlocking {
+            LogBuffer.clear()
+            val vm =
+                SimDetailViewModel(
+                    appContext,
+                    repository,
+                    scheduleReconciler,
+                    prefs,
+                    armer,
+                    SimSendLock(),
+                    OffSchedulePendingRegistry(),
+                )
+            val config = SimKeepaliveConfig(simId = 1, enabled = true, recipientPhone = "+15550100")
+            val saved = config.copy(nextSendAtMillis = 1_700_000_000_000L)
+            mockNoExistingConfig()
+            wheneverBlocking { repository.getConfig(any()) }
+                .thenReturn(null, saved)
+            vm.saveConfig(config)
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "SimDetailVM" &&
+                        it.message.contains("simId=1") && it.message.contains("keepalive enabled") &&
+                        it.message.contains("next send 1700000000000")
+                },
+            )
+        }
+
+    @Test
+    fun `setEnabled logs the disabled state`() =
+        runBlocking {
+            val vm =
+                SimDetailViewModel(
+                    appContext,
+                    repository,
+                    scheduleReconciler,
+                    prefs,
+                    armer,
+                    SimSendLock(),
+                    OffSchedulePendingRegistry(),
+                )
+            val config = SimKeepaliveConfig(simId = 6, enabled = true, recipientPhone = "+15550100")
+            mockNoExistingConfig()
+            wheneverBlocking { repository.getConfig(any()) }
+                .thenReturn(null, config)
+            vm.saveConfig(config)
+            vm.clearSavedFlag()
+            LogBuffer.clear()
+            val disabled = config.copy(enabled = false)
+            wheneverBlocking { repository.getConfig(any()) }
+                .thenReturn(config, disabled)
+            vm.setEnabled(false)
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "SimDetailVM" &&
+                        it.message.contains("simId=6") && it.message.contains("keepalive disabled")
+                },
+            )
+        }
+
+    @Test
+    fun `deleteSchedule logs the deletion`() =
+        runBlocking {
+            LogBuffer.clear()
+            val vm =
+                SimDetailViewModel(
+                    appContext,
+                    repository,
+                    scheduleReconciler,
+                    prefs,
+                    armer,
+                    SimSendLock(),
+                    OffSchedulePendingRegistry(),
+                )
+            mockNoExistingConfig()
+            whenever(appContext.getString(R.string.error_schedule_deleted)).thenReturn("Schedule deleted")
+            vm.deleteSchedule(12)
+            verifyBlocking(repository) { deleteConfig(12) }
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "SimDetailVM" &&
+                        it.message.contains("simId=12") && it.message.contains("schedule deleted")
+                },
+            )
+        }
+
+    @Test
+    fun `forgetSim logs the forget`() =
+        runBlocking {
+            LogBuffer.clear()
+            val vm =
+                SimDetailViewModel(
+                    appContext,
+                    repository,
+                    scheduleReconciler,
+                    prefs,
+                    armer,
+                    SimSendLock(),
+                    OffSchedulePendingRegistry(),
+                )
+            mockNoExistingConfig()
+            vm.forgetSim(13)
+            verifyBlocking(repository) { deleteSim(13) }
+            assertTrue(
+                LogBuffer.entries.any {
+                    it.level == "I" && it.tag == "SimDetailVM" &&
+                        it.message.contains("simId=13") && it.message.contains("sim forgotten")
+                },
+            )
         }
 
     @Test

@@ -2,10 +2,17 @@
 
 Android app that sends an SMS on the schedule you define so your prepaid, roaming, or backup SIM card is never deactivated for inactivity.
 
+<p align="center">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="200" alt="Keep SIM Alive screenshot">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="200" alt="Keep SIM Alive screenshot">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="200" alt="Keep SIM Alive screenshot">
+</p>
+
 ## Install
 
-- [GitHub releases](https://github.com/kotowski-app/keepsimalive/releases) — download the latest `keepsimalive-v<version>.apk` asset and install it (allow "install unknown apps" for your browser or file manager when Android asks)
-- F-Droid — coming soon
+[![Get it on F-Droid](https://fdroid.gitlab.io/artwork/badge/get-it-on.png)](https://f-droid.org/en/packages/app.kotowski.keepsimalive.vanilla/)
+
+[GitHub releases](https://github.com/kotowski-app/keepsimalive/releases) — download the latest `keepsimalive-v<version>.apk` asset and install it (allow "install unknown apps" for your browser or file manager when Android asks)
 
 ## How it works
 
@@ -49,7 +56,7 @@ Build and install to all connected devices in one step (runs the full test + lin
 ./build.sh release    # real build, signed with the developer's keystore
 ```
 
-The release signing keystore is intentionally not part of this repository: without it the release variant builds unsigned and cannot be installed, while debug falls back to the standard debug key and installs fine. To sign with your own key, put a keystore at `local/release.keystore` (e.g. from `keytool -genkeypair`) and its `storePassword`, `keyAlias`, `keyPassword` in `local/release-keystore.properties` — the build picks both up automatically.
+The release signing keystore is intentionally not part of this repository: without it the release variant builds unsigned and cannot be installed, while debug falls back to the standard debug key and installs fine. To sign with your own key, put a keystore at `release.keystore` in the repository root (e.g. from `keytool -genkeypair`) and its `storePassword`, `keyAlias`, `keyPassword` in `release-keystore.properties` next to it — the build picks both up automatically.
 
 ## Stack
 

@@ -2733,6 +2733,7 @@ class ScheduleReconcilerTest {
 
     // The WorkManager wake also parks a PendingIntent alarm of its own: count only
     // alarms whose intent targets the receiver.
+    @Suppress("DEPRECATION")
     private fun shadowAlarms(): List<ShadowAlarmManager.ScheduledAlarm> =
         (
             shadowOf(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager)

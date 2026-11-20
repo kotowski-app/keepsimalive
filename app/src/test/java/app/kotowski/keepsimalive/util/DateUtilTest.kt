@@ -43,6 +43,13 @@ class DateUtilTest {
     }
 
     @Test
+    fun `formatLogTimestamp renders UTC with the Z suffix`() {
+        // 1609459200123 is 2021-01-01T00:00:00.123 UTC, so the rendering must not depend
+        // on the device's timezone.
+        assertEquals("2021-01-01T00:00:00.123Z", DateUtil.formatLogTimestamp(1609459200123L))
+    }
+
+    @Test
     fun `formatLogTimestamp includes milliseconds`() {
         val timestamp = 1609459200123L
         val str = DateUtil.formatLogTimestamp(timestamp)

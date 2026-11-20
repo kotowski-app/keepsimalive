@@ -78,6 +78,16 @@ fun SettingsScreen(
     var showShortenConfirm by remember { mutableStateOf(false) }
     var themeExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
+    var showLogToFileDisableConfirm by remember { mutableStateOf(false) }
+
+    // On commits right away; off waits for the confirm (the disable deletes the file).
+    fun onLogToFileChanged(value: Boolean) {
+        if (value) {
+            viewModel.setLogToFile(true)
+        } else {
+            showLogToFileDisableConfirm = true
+        }
+    }
 
     // The enable-in-progress: the toggle is visually on but nothing is committed yet —
     // the period row is open in the edit mode, and the commit waits for the Save's
@@ -385,6 +395,14 @@ fun SettingsScreen(
 
                 SectionHeader(title = stringResource(R.string.log_viewer_title))
 
+                SettingsToggleRowWithSubtitle(
+                    title = stringResource(R.string.settings_log_to_file_title),
+                    subtitle = stringResource(R.string.settings_log_to_file_desc),
+                    checked = state.logToFileEnabled,
+                    onCheckedChange = { onLogToFileChanged(it) },
+                    testTag = "toggle_log_to_file",
+                )
+
                 // Navigation, not an action: the chevron row (NavigationRow) keeps a pure
                 // "go somewhere" quiet — as a filled button it would be the loudest
                 // element of the settings.
@@ -463,6 +481,20 @@ fun SettingsScreen(
                         retentionPeriodEditing = false
                         viewModel.commitRetention(true, retentionDraftDays)
                     },
+                )
+            }
+
+            if (showLogToFileDisableConfirm) {
+                TextConfirmDialog(
+                    title = stringResource(R.string.settings_log_to_file_disable_title),
+                    detail = stringResource(R.string.settings_log_to_file_disable_detail),
+                    confirmLabel = stringResource(R.string.settings_log_to_file_disable_confirm),
+                    onConfirm = {
+                        showLogToFileDisableConfirm = false
+                        viewModel.setLogToFile(false)
+                    },
+                    onDismiss = { showLogToFileDisableConfirm = false },
+                    confirmTestTag = "log_to_file_disable_confirm",
                 )
             }
 

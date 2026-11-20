@@ -364,6 +364,7 @@ class SimDetailViewModelLoadTest {
                 verify(armer).cancelSend(11)
                 // The one-shot navigation signal lands with the committed forget (the
                 // screen leaves with it, so the ViewModel outlives its own delete).
+                waitFor { vm.state.value.justForgot }
                 assertTrue(vm.state.value.justForgot)
                 // The config row is gone: the clock-change recompute's persisted
                 // catch-up anchor for this SIM goes with it (a re-added SIM must not

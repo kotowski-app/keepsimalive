@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <group
+      android:pivotX="256"
+      android:pivotY="256"
+      android:scaleX="0.62"
+      android:scaleY="0.62">
+    <path
+        android:pathData="M147,63 L350,63 L392,105 L392,433 A16,16 0 0 1 376,449 L147,449 A16,16 0 0 1 131,433 L131,79 A16,16 0 0 1 147,63 Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="14"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M181,209 L301,209 A18,18 0 0 1 319,227 L319,379 A18,18 0 0 1 301,397 L181,397 A18,18 0 0 1 163,379 L163,227 A18,18 0 0 1 181,209 Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="12"
+        android:strokeLineJoin="round" />
+    <!-- contact grid: the middle column is one long pad, horizontals only in the side columns -->
+    <path
+        android:pathData="M213,209 L213,397 M269,209 L269,397 M163,269 L213,269 M269,269 L319,269 M163,305 L213,305 M269,305 L319,305 M163,352 L213,352 M269,352 L319,352"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="8" />
+    <path
+        android:pathData="M15,240 L190,240 L234,112 L280,336 L326,240 L495,240"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="20"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+  </group>
+</vector>

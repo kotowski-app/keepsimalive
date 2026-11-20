@@ -358,7 +358,7 @@ class IntervalFormatterTest {
         val fixedNow = Instant.now()
         val future = fixedNow.plus(5, ChronoUnit.DAYS)
         val display = rd(future, now = fixedNow, maxDaysThreshold = 365)
-        assertTrue("Expected 'in 5' but got: $display", display.contains("in") && display.contains("5"))
+        assertTrue("Expected 'In 5' but got: $display", display.contains("In") && display.contains("5"))
     }
 
     @Test

@@ -36,6 +36,7 @@ class ScheduleArmer
                 return false
             }
             enqueueSendWork(simId, (config.nextSendAtMillis - System.currentTimeMillis()).coerceAtLeast(0))
+            Logger.i("ScheduleArmer", "simId=$simId send work armed for ${config.nextSendAtMillis}")
             // The exact wake is an additional token, never a replacement: the WorkManager
             // work and the safety sweep stay as backup, and the engine's idempotency
             // absorbs both wakes for the same occurrence.

@@ -1,5 +1,6 @@
 package app.kotowski.keepsimalive.ui.dashboard
 
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import app.kotowski.keepsimalive.R
 import app.kotowski.keepsimalive.data.InFlightOccurrence
@@ -21,6 +22,7 @@ import app.kotowski.keepsimalive.util.SimInfo
 import app.kotowski.keepsimalive.work.ScheduleReconciler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -82,6 +84,7 @@ class DashboardModelTest {
     private val context = RuntimeEnvironment.getApplication()
     private lateinit var database: KeepaliveDatabase
     private lateinit var repository: KeepaliveRepository
+    private val viewModels = mutableListOf<DashboardViewModel>()
 
     @Before
     fun setup() {
@@ -92,6 +95,10 @@ class DashboardModelTest {
 
     @After
     fun tearDown() {
+        // Cancel the VM scopes first: while a Room-flow collector is still suspended on
+        // Main, resetMain() races the InvalidationTracker thread resuming it and throws
+        // "Dispatchers.Main is used concurrently with setting it" (flaky CI failure).
+        viewModels.forEach { vm -> (vm.viewModelScope.coroutineContext[Job] as? Job)?.cancel() }
         Dispatchers.resetMain()
         // Deliberately no database.close() here: Room 2.6.1's close() holds the
         // InvalidationTracker write lock while taking the static ":memory:" process lock,
@@ -184,6 +191,7 @@ class DashboardModelTest {
             val pm = mock<PermissionManager>()
             whenever(pm.getPermissionsAutoResetStatus()).thenReturn(PermissionsAutoResetStatus.DISABLED)
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updatePermissionsAutoResetStatus()
             assertEquals(PermissionsAutoResetStatus.DISABLED, vm.state.value.permissionsAutoResetStatus)
         }
@@ -241,6 +249,7 @@ class DashboardModelTest {
             shadowOf(tm).setPhoneCount(2)
             val pm = mock<PermissionManager>()
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updateSimCards(context)
             assertTrue(vm.state.value.multiSimDevice)
 
@@ -266,6 +275,7 @@ class DashboardModelTest {
 
             val pm = mock<PermissionManager>()
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updateSimCards(context)
             assertEquals(
                 listOf("SIM A"),
@@ -312,6 +322,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             assertFalse(vm.state.value.simCardsRead)
             vm.updateSimCards(context)
             assertTrue(vm.state.value.simCardsRead)
@@ -340,6 +351,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             // The missing-card logic reads stats from the config flow, whose first emission
             // is asynchronous: wait for it before unplugging the SIM.
@@ -400,6 +412,7 @@ class DashboardModelTest {
 
             val pm = mock<PermissionManager>()
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updateSimCards(context)
 
             // The cached slot is 1-based (the 0-based index 1 -> slot 2), like
@@ -430,6 +443,7 @@ class DashboardModelTest {
 
             val pm = mock<PermissionManager>()
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updateSimCards(context)
             assertTrue(
                 vm.state.value.missingSimCards
@@ -470,6 +484,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             assertTrue(
                 vm.state.value.realSimCards
@@ -496,6 +511,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             assertEquals(1, vm.state.value.realSimCards.size)
             assertEquals(0, LogBuffer.entries.count { it.tag == "DashVM" })
@@ -537,6 +553,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             assertTrue(
                 vm.state.value.missingSimCards
@@ -569,6 +586,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             waitFor {
                 vm.state.value.realSimCards
@@ -623,6 +641,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             // The missing-card logic reads stats from the config flow, whose first emission
             // is asynchronous: wait for it before unplugging the SIM.
@@ -656,6 +675,7 @@ class DashboardModelTest {
                     repository,
                     mock<ScheduleReconciler>(),
                 )
+            viewModels += vm
             vm.updateSimCards(context)
             // The missing-card logic reads stats from the config flow, whose first emission
             // is asynchronous: wait for it before unplugging the SIM.
@@ -845,7 +865,7 @@ class DashboardModelTest {
             )
         val result = nextSendRelative(stub, context, fixedNow)
         assertTrue("Expected hours in result but got: $result", result.contains("hour"))
-        assertTrue("Expected future direction but got: $result", result.contains("in"))
+        assertTrue("Expected future direction but got: $result", result.contains("In"))
     }
 
     @Test
@@ -1026,8 +1046,8 @@ class DashboardModelTest {
                 sendCount = 0,
             )
         val result = nextSendRelative(stub, context, fixedNow)
-        assertTrue("Expected 'in 5 minutes' but got: $result", result.contains("5"))
-        assertTrue("Expected future direction but got: $result", result.contains("in"))
+        assertTrue("Expected 'In 5 minutes' but got: $result", result.contains("5"))
+        assertTrue("Expected future direction but got: $result", result.contains("In"))
     }
 
     @Test
@@ -1146,6 +1166,7 @@ class DashboardModelTest {
 
             val pm = mock<PermissionManager>()
             val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+            viewModels += vm
             vm.updateSimCards(context)
             repository.saveConfig(
                 SimKeepaliveConfig(
@@ -1178,6 +1199,7 @@ class DashboardModelTest {
         val pm = PermissionManager(context)
         shadowOf(context).grantPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
         val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+        viewModels += vm
         vm.updatePermissions(context)
         assertTrue(vm.state.value.notificationsGranted)
         assertTrue(vm.state.value.isAndroid13Plus)
@@ -1189,6 +1211,7 @@ class DashboardModelTest {
         val pm = PermissionManager(context)
         shadowOf(context).denyPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
         val vm = DashboardViewModel(context, pm, repository, mock<ScheduleReconciler>())
+        viewModels += vm
         vm.updatePermissions(context)
         assertFalse(vm.state.value.notificationsGranted)
         assertTrue(vm.state.value.isAndroid13Plus)

@@ -28,7 +28,7 @@ class PhoneValidatorTest {
 
     @Test
     fun `valid maximum length 15 digits`() {
-        assertTrue(isValidE164("+123456789012345"))
+        assertTrue(isValidE164("+100000000000000"))
     }
 
     @Test
@@ -55,7 +55,7 @@ class PhoneValidatorTest {
 
     @Test
     fun `leading zero after plus is invalid`() {
-        assertFalse(isValidE164("+09001234567"))
+        assertFalse(isValidE164("+0000000000"))
     }
 
     @Test
@@ -65,7 +65,7 @@ class PhoneValidatorTest {
 
     @Test
     fun `too long is invalid`() {
-        assertFalse(isValidE164("+1234567890123456"))
+        assertFalse(isValidE164("+1000000000000000"))
     }
 
     @Test

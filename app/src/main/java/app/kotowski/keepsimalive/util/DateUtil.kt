@@ -21,7 +21,8 @@ object DateUtil {
     private val englishTime24 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
     private val englishTime12 = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH)
 
-    private val logTimestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH)
+    private val logTimestampFormatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
 
     // The locale the dates render in: the app language picked in Settings (the passed
     // context already carries it) or, while the app follows the system language, the device
@@ -131,8 +132,10 @@ object DateUtil {
 
     fun localDateOf(timestamp: Long): LocalDate = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate()
 
+    // Log timestamps are UTC (the Z suffix): a device timezone change mid-run must not mix
+    // two zones in one log file.
     fun formatLogTimestamp(timestamp: Long): String {
-        val zdt = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault())
-        return zdt.format(logTimestampFormatter)
+        val instant = Instant.ofEpochMilli(timestamp).atOffset(ZoneOffset.UTC)
+        return instant.format(logTimestampFormatter)
     }
 }

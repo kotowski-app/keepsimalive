@@ -1,5 +1,7 @@
 package app.kotowski.keepsimalive
 
+import app.kotowski.keepsimalive.util.LogBuffer
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -15,5 +17,20 @@ class KeepSimAliveAppTest {
         val app = KeepSimAliveApp()
 
         app.onCreate() // must not throw
+    }
+
+    @Test
+    fun `onCreate logs the app start marker`() {
+        LogBuffer.clear()
+        val app = KeepSimAliveApp()
+
+        app.onCreate()
+
+        assertTrue(
+            LogBuffer.entries.any {
+                it.level == "I" && it.tag == "KeepSimAliveApp" &&
+                    it.message.contains("app started") && it.message.contains(BuildConfig.VERSION_NAME)
+            },
+        )
     }
 }

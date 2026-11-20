@@ -186,6 +186,16 @@
         <item quantity="one">Cleanup will run within %d hour.</item>
         <item quantity="other">Cleanup will run within %d hours.</item>
     </plurals>
+    <!-- Title of the "Log to file" toggle in the App logs section of the Settings screen -->
+    <string name="settings_log_to_file_title">Log to file</string>
+    <!-- Description of the "Log to file" toggle in the App logs section of the Settings screen -->
+    <string name="settings_log_to_file_desc">Also save log entries to a file so they survive app restarts and crashes.</string>
+    <!-- Title of the confirm dialog when the "Log to file" toggle is turned off -->
+    <string name="settings_log_to_file_disable_title">Turn off log to file?</string>
+    <!-- Detail of the confirm dialog when the "Log to file" toggle is turned off -->
+    <string name="settings_log_to_file_disable_detail">The log file will be deleted. Copy the logs first if you want to keep them.</string>
+    <!-- Confirm button of the dialog when the "Log to file" toggle is turned off -->
+    <string name="settings_log_to_file_disable_confirm">Turn off</string>
     <!-- Label of the "Open logs" row in the App logs section of the Settings screen; tapping it opens the App logs screen -->
     <string name="settings_logs">Open logs</string>
 
@@ -206,6 +216,12 @@
     <string name="log_viewer_title">App logs</string>
     <!-- "Copy" button label in the App logs top bar (copies the filtered log to the clipboard) -->
     <string name="log_viewer_copy">Copy</string>
+    <!-- "Clear" button label in the App logs top bar (wipes the in-memory buffer and the log file) -->
+    <string name="log_viewer_clear">Clear</string>
+    <!-- Title of the confirm dialog when the logs are cleared on the App logs screen -->
+    <string name="log_viewer_clear_title">Clear logs?</string>
+    <!-- Detail of the confirm dialog when the logs are cleared on the App logs screen -->
+    <string name="log_viewer_clear_confirm">Delete all app logs? This cannot be undone.</string>
     <!-- Floating label of the search field on the App logs screen -->
     <string name="log_viewer_search">Search</string>
     <!-- Placeholder of the search field on the App logs screen -->
@@ -263,18 +279,18 @@
     <!-- Future -->
     <!-- "Next send" relative value on the Dashboard SIM card and in the SIM details SIM info card, 30 s - 29 m 59 s from now (displays 1-30 minutes) -->
     <plurals name="future_minutes">
-        <item quantity="one">in %d minute</item>
-        <item quantity="other">in %d minutes</item>
+        <item quantity="one">In %d minute</item>
+        <item quantity="other">In %d minutes</item>
     </plurals>
     <!-- "Next send" relative value, 30 min - 11 h 59 m from now (displays 1-12 hours) -->
     <plurals name="future_hours">
-        <item quantity="one">in %d hour</item>
-        <item quantity="other">in %d hours</item>
+        <item quantity="one">In %d hour</item>
+        <item quantity="other">In %d hours</item>
     </plurals>
     <!-- "Next send" relative value, 12 h - 7 d 12 h from now (displays 1-7 days; beyond that the full date is shown instead) -->
     <plurals name="future_days">
-        <item quantity="one">in %d day</item>
-        <item quantity="other">in %d days</item>
+        <item quantity="one">In %d day</item>
+        <item quantity="other">In %d days</item>
     </plurals>
     <!-- Countdown durations (SIM details SIM info Status row, and status_send_in / status_retry_in) -->
     <!-- Duration format of the Status row countdown when it spans days; %1$d = days, %2$02d = hours, %3$02d = minutes, %4$02d = seconds (Note for translator: %1$dd is not a typo — the first 'd' belongs to the format code %1$d, and the second 'd' is the letter for "days", which you may translate to your language's abbreviation) -->

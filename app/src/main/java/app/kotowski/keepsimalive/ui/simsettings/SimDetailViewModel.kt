@@ -412,6 +412,7 @@ class SimDetailViewModel
                         return@launch
                     }
                     armer.cancelSend(simId)
+                    Logger.i("SimDetailVM", "simId=$simId schedule deleted")
                     // Deleting the (possibly last) enabled SIM leaves no keepalive running:
                     // refresh the persistent hint right away.
                     scheduleReconciler.syncPersistentHint()
@@ -442,6 +443,7 @@ class SimDetailViewModel
                     return@launch
                 }
                 armer.cancelSend(simId)
+                Logger.i("SimDetailVM", "simId=$simId sim forgotten")
                 SimIdentityCache.forget(appContext, simId)
                 prefs.setSimNotPresentFailures(simId, 0)
                 // The config row is gone: the clock-change recompute's persisted
@@ -827,6 +829,11 @@ class SimDetailViewModel
                     }
                     val effective = result ?: return@launch
                     _state.update { it.copy(config = effective, justSaved = notifySaved) }
+                    Logger.i(
+                        "SimDetailVM",
+                        "simId=${effective.simId} keepalive ${if (effective.enabled) "enabled" else "disabled"}, " +
+                            "next send ${effective.nextSendAtMillis ?: "none"}",
+                    )
                     // The per-SIM reconcile already ran under the lock; the global hint
                     // sync stays outside (it must not wait for the next dashboard visit).
                     scheduleReconciler.syncPersistentHint()

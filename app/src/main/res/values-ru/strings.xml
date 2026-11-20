@@ -89,6 +89,11 @@
         <item quantity="many">Очистка произойдёт в течение %d часов.</item>
         <item quantity="other">Очистка произойдёт в течение %d часов.</item>
     </plurals>
+    <string name="settings_log_to_file_title">Вести логи в файл</string>
+    <string name="settings_log_to_file_desc">Также сохранять логи в файл, чтобы они оставались после перезапуска и сбоев приложения.</string>
+    <string name="settings_log_to_file_disable_title">Отключить логи в файл?</string>
+    <string name="settings_log_to_file_disable_detail">Файл будет удалён. Сначала скопируйте логи, если хотите сохранить их.</string>
+    <string name="settings_log_to_file_disable_confirm">Отключить</string>
     <string name="settings_logs">Открыть логи</string>
 
     <string name="settings_section_appearance">Внешний вид</string>
@@ -99,6 +104,9 @@
 
     <string name="log_viewer_title">Логи приложения</string>
     <string name="log_viewer_copy">Копировать</string>
+    <string name="log_viewer_clear">Очистить</string>
+    <string name="log_viewer_clear_title">Очистить логи?</string>
+    <string name="log_viewer_clear_confirm">Удалить все логи приложения? Это действие нельзя отменить.</string>
     <string name="log_viewer_search">Поиск</string>
     <string name="log_viewer_search_hint">Поиск в логах</string>
     <string name="log_viewer_empty">Логов пока нет</string>
@@ -139,22 +147,22 @@
     </plurals>
 
     <plurals name="future_minutes">
-        <item quantity="one">через %d минуту</item>
-        <item quantity="few">через %d минуты</item>
-        <item quantity="many">через %d минут</item>
-        <item quantity="other">через %d минут</item>
+        <item quantity="one">Через %d минуту</item>
+        <item quantity="few">Через %d минуты</item>
+        <item quantity="many">Через %d минут</item>
+        <item quantity="other">Через %d минут</item>
     </plurals>
     <plurals name="future_hours">
-        <item quantity="one">через %d час</item>
-        <item quantity="few">через %d часа</item>
-        <item quantity="many">через %d часов</item>
-        <item quantity="other">через %d часов</item>
+        <item quantity="one">Через %d час</item>
+        <item quantity="few">Через %d часа</item>
+        <item quantity="many">Через %d часов</item>
+        <item quantity="other">Через %d часов</item>
     </plurals>
     <plurals name="future_days">
-        <item quantity="one">через %d день</item>
-        <item quantity="few">через %d дня</item>
-        <item quantity="many">через %d дней</item>
-        <item quantity="other">через %d дней</item>
+        <item quantity="one">Через %d день</item>
+        <item quantity="few">Через %d дня</item>
+        <item quantity="many">Через %d дней</item>
+        <item quantity="other">Через %d дней</item>
     </plurals>
 
     <string name="duration_days">%1$dд %2$02dч %3$02dм %4$02dс</string>
